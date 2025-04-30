@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Medical Profile</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .patient-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .patient-details {
+            text-align: right;
+        }
+
+        .patient-details h3 {
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .patient-details p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #666;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--secondary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-header h3 {
+            color: var(--primary-color);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-danger {
+            background-color: var(--accent-color);
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+
+        .history-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .history-item h4 {
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .history-item p {
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .history-item .meta {
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h3 {
+            color: var(--primary-color);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            background-color: #f5f7fa;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-btn {
+            background-color: transparent;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            right: 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 100;
+        }
+
+        .language-dropdown a {
+            display: block;
+            padding: 8px 15px;
+            text-decoration: none;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .language-dropdown a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .language-selector:hover .language-dropdown {
+            display: block;
+        }
+
+        #registration-modal .modal-content {
+            max-width: 500px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .profile-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            display: block;
+            background-color: #eee;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Registration Modal -->
+    <div class="modal" id="registration-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Complete Your Medical Profile</h3>
+            </div>
+            <form id="registration-form">
+                <div class="form-group" style="text-align: center;">
+                    <img id="profile-preview" class="profile-preview" src="https://via.placeholder.com/100" alt="Profile Preview">
+                    <input type="file" id="profile-picture" class="form-control" style="display: none;" accept="image/*">
+                    <button type="button" class="btn" id="upload-profile-btn" style="margin-top: 10px;">
+                        <i class="fas fa-camera"></i> Upload Photo
+                    </button>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" class="form-control" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" class="form-control" required>
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            <option value="prefer-not-to-say">Prefer not to say</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="blood-type">Blood Type</label>
+                        <select id="blood-type" class="form-control">
+                            <option value="">Unknown</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" class="form-control">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emergency-contact">Emergency Contact Name</label>
+                    <input type="text" id="emergency-contact" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="emergency-phone">Emergency Phone</label>
+                    <input type="tel" id="emergency-phone" class="form-control">
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Complete Registration</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="main-container">
+        <div class="header">
+            <h1>My Medical Profile</h1>
+            <div class="patient-info">
+                <img id="patient-profile-img" src="https://via.placeholder.com/50" alt="Patient Profile">
+                <div class="patient-details">
+                    <h3 id="patient-name">John Doe</h3>
+                    <p id="patient-info">35 years old • Male • O+</p>
+                </div>
+                <div class="language-selector">
+                    <button class="language-btn">
+                        <i class="fas fa-globe"></i> English
+                    </button>
+                    <div class="language-dropdown">
+                        <a href="#" data-lang="en"><i class="fas fa-check"></i> English</a>
+                        <a href="#" data-lang="es">Español</a>
+                        <a href="#" data-lang="fr">Français</a>
+                        <a href="#" data-lang="de">Deutsch</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="medical-history">Medical History</button>
+            <button class="tab-btn" data-tab="appointments">Appointments</button>
+            <button class="tab-btn" data-tab="doctors">My Doctors</button>
+        </div>
+
+        <!-- Medical History Tab -->
+        <div id="medical-history" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Medical Records</h3>
+                    <button class="btn" id="add-history-btn">
+                        <i class="fas fa-plus"></i> Add Record
+                    </button>
+                </div>
+                
+                <div id="history-list">
+                    <!-- History items will be added here dynamically -->
+                    <div class="empty-state">
+                        <i class="fas fa-file-medical"></i>
+                        <h3>No medical records yet</h3>
+                        <p>Add your first medical record to get started</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointments Tab -->
+        <div id="appointments" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Upcoming Appointments</h3>
+                    <button class="btn" id="add-appointment-btn">
+                        <i class="fas fa-plus"></i> Book Appointment
+                    </button>
+                </div>
+                
+                <table class="table" id="upcoming-appointments">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Doctor</th>
+                            <th>Specialty</th>
+                            <th>Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Appointments will be added here dynamically -->
+                        <tr class="empty-row">
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-calendar-alt"></i>
+                                <h3>No upcoming appointments</h3>
+                                <p>Book your first appointment to get started</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Past Appointments</h3>
+                </div>
+                
+                <table class="table" id="past-appointments">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Doctor</th>
+                            <th>Specialty</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Past appointments will be added here dynamically -->
+                        <tr class="empty-row">
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-history"></i>
+                                <h3>No past appointments</h3>
+                                <p>Your past appointments will appear here</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Doctors Tab -->
+        <div id="doctors" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>My Doctors</h3>
+                    <button class="btn" id="add-doctor-btn">
+                        <i class="fas fa-plus"></i> Register Doctor
+                    </button>
+                </div>
+                
+                <table class="table" id="doctors-list">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Specialty</th>
+                            <th>Location</th>
+                            <th>Contact</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Doctors will be added here dynamically -->
+                        <tr class="empty-row">
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-user-md"></i>
+                                <h3>No doctors registered</h3>
+                                <p>Add your first doctor to get started</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add Medical Record Modal -->
+        <div class="modal" id="add-record-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Medical Record</h3>
+                    <button class="close-btn" id="close-record-modal">&times;</button>
+                </div>
+                <form id="medical-record-form">
+                    <div class="form-group">
+                        <label for="record-title">Title</label>
+                        <input type="text" id="record-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="record-date">Date</label>
+                        <input type="date" id="record-date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="record-type">Record Type</label>
+                        <select id="record-type" class="form-control" required>
+                            <option value="">Select type</option>
+                            <option value="diagnosis">Diagnosis</option>
+                            <option value="treatment">Treatment</option>
+                            <option value="procedure">Procedure</option>
+                            <option value="test">Test Result</option>
+                            <option value="note">Doctor's Note</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="record-specialty">Medical Specialty</label>
+                        <input type="text" id="record-specialty" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="record-description">Description</label>
+                        <textarea id="record-description" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="record-attachment">Attach Files</label>
+                        <input type="file" id="record-attachment" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="cancel-record-btn">Cancel</button>
+                        <button type="submit" class="btn btn-success">Save Record</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Book Appointment Modal -->
+        <div class="modal" id="add-appointment-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Book Appointment</h3>
+                    <button class="close-btn" id="close-appointment-modal">&times;</button>
+                </div>
+                <form id="appointment-form">
+                    <div class="form-group">
+                        <label for="appointment-doctor">Select Doctor</label>
+                        <select id="appointment-doctor" class="form-control" required>
+                            <option value="">Select doctor</option>
+                            <!-- Doctors will be added here dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-date">Date</label>
+                        <input type="date" id="appointment-date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-time">Time</label>
+                        <input type="time" id="appointment-time" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-reason">Reason for Visit</label>
+                        <textarea id="appointment-reason" class="form-control" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="cancel-appointment-btn">Cancel</button>
+                        <button type="submit" class="btn btn-success">Book Appointment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Register Doctor Modal -->
+        <div class="modal" id="add-doctor-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Register New Doctor</h3>
+                    <button class="close-btn" id="close-doctor-modal">&times;</button>
+                </div>
+                <form id="doctor-form">
+                    <div class="form-group">
+                        <label for="doctor-name">Doctor's Name</label>
+                        <input type="text" id="doctor-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-specialty">Specialty</label>
+                        <input type="text" id="doctor-specialty" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-hospital">Hospital/Clinic</label>
+                        <input type="text" id="doctor-hospital" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-phone">Phone Number</label>
+                        <input type="tel" id="doctor-phone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-email">Email</label>
+                        <input type="email" id="doctor-email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-address">Address</label>
+                        <textarea id="doctor-address" class="form-control"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="cancel-doctor-btn">Cancel</button>
+                        <button type="submit" class="btn btn-success">Register Doctor</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize data storage
+            if (!localStorage.getItem('medicalHistory')) {
+                localStorage.setItem('medicalHistory', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('appointments')) {
+                localStorage.setItem('appointments', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('doctors')) {
+                localStorage.setItem('doctors', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('language')) {
+                localStorage.setItem('language', 'en');
+            }
+
+            // Check registration
+            const registrationModal = document.getElementById('registration-modal');
+            const mainContainer = document.getElementById('main-container');
+            const patientData = JSON.parse(localStorage.getItem('patientData'));
+            
+            if (!patientData) {
+                registrationModal.style.display = 'flex';
+                mainContainer.style.display = 'none';
+            } else {
+                registrationModal.style.display = 'none';
+                mainContainer.style.display = 'block';
+                loadPatientData();
+                loadMedicalHistory();
+                loadAppointments();
+                loadDoctors();
+                setLanguage(localStorage.getItem('language'));
+            }
+
+            // Profile picture upload
+            const uploadBtn = document.getElementById('upload-profile-btn');
+            const profileInput = document.getElementById('profile-picture');
+            const profilePreview = document.getElementById('profile-preview');
+            
+            uploadBtn.addEventListener('click', function() {
+                profileInput.click();
+            });
+            
+            profileInput.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        profilePreview.src = event.target.result;
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+
+            // Registration form
+            document.getElementById('registration-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const patientData = {
+                    profilePicture: profilePreview.src,
+                    firstName: document.getElementById('first-name').value,
+                    lastName: document.getElementById('last-name').value,
+                    dob: document.getElementById('dob').value,
+                    gender: document.getElementById('gender').value,
+                    bloodType: document.getElementById('blood-type').value,
+                    address: document.getElementById('address').value,
+                    phone: document.getElementById('phone').value,
+                    email: document.getElementById('email').value,
+                    emergencyContact: document.getElementById('emergency-contact').value,
+                    emergencyPhone: document.getElementById('emergency-phone').value
+                };
+                
+                localStorage.setItem('patientData', JSON.stringify(patientData));
+                registrationModal.style.display = 'none';
+                mainContainer.style.display = 'block';
+                loadPatientData();
+            });
+
+            // Load patient data
+            function loadPatientData() {
+                const patientData = JSON.parse(localStorage.getItem('patientData'));
+                if (patientData) {
+                    const dob = new Date(patientData.dob);
+                    const age = new Date().getFullYear() - dob.getFullYear();
+                    
+                    document.getElementById('patient-name').textContent = 
+                        `${patientData.firstName} ${patientData.lastName}`;
+                    document.getElementById('patient-info').textContent = 
+                        `${age} years old • ${patientData.gender} • ${patientData.bloodType || 'Blood type not specified'}`;
+                    
+                    if (patientData.profilePicture) {
+                        document.getElementById('patient-profile-img').src = patientData.profilePicture;
+                    }
+                }
+            }
+
+            // Tab functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    tabBtns.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Medical History
+            function loadMedicalHistory() {
+                const historyList = document.getElementById('history-list');
+                const medicalHistory = JSON.parse(localStorage.getItem('medicalHistory'));
+                
+                if (medicalHistory.length === 0) {
+                    historyList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-file-medical"></i>
+                            <h3>No medical records yet</h3>
+                            <p>Add your first medical record to get started</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                historyList.innerHTML = '';
+                medicalHistory.forEach((record, index) => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.innerHTML = `
+                        <h4>${record.title}</h4>
+                        <p>${record.description}</p>
+                        <div class="meta">
+                            <span>${new Date(record.date).toLocaleDateString()} • ${record.specialty || 'General'}</span>
+                            <button class="btn btn-danger" data-index="${index}">Delete</button>
+                        </div>
+                    `;
+                    historyList.appendChild(historyItem);
+                });
+                
+                // Add delete event listeners
+                document.querySelectorAll('#history-list .btn-danger').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        deleteMedicalRecord(index);
+                    });
+                });
+            }
+            
+            function deleteMedicalRecord(index) {
+                const medicalHistory = JSON.parse(localStorage.getItem('medicalHistory'));
+                medicalHistory.splice(index, 1);
+                localStorage.setItem('medicalHistory', JSON.stringify(medicalHistory));
+                loadMedicalHistory();
+            }
+
+            // Add Medical Record Modal
+            const addHistoryBtn = document.getElementById('add-history-btn');
+            const addRecordModal = document.getElementById('add-record-modal');
+            
+            addHistoryBtn.addEventListener('click', function() {
+                addRecordModal.style.display = 'flex';
+            });
+            
+            document.getElementById('close-record-modal').addEventListener('click', function() {
+                addRecordModal.style.display = 'none';
+            });
+            
+            document.getElementById('cancel-record-btn').addEventListener('click', function() {
+                addRecordModal.style.display = 'none';
+            });
+            
+            document.getElementById('medical-record-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const newRecord = {
+                    title: document.getElementById('record-title').value,
+                    date: document.getElementById('record-date').value,
+                    type: document.getElementById('record-type').value,
+                    specialty: document.getElementById('record-specialty').value,
+                    description: document.getElementById('record-description').value,
+                    attachment: document.getElementById('record-attachment').files[0]?.name || null
+                };
+                
+                const medicalHistory = JSON.parse(localStorage.getItem('medicalHistory'));
+                medicalHistory.push(newRecord);
+                localStorage.setItem('medicalHistory', JSON.stringify(medicalHistory));
+                
+                addRecordModal.style.display = 'none';
+                this.reset();
+                loadMedicalHistory();
+            });
+
+            // Appointments
+            function loadAppointments() {
+                const appointments = JSON.parse(localStorage.getItem('appointments'));
+                const now = new Date();
+                
+                // Upcoming appointments
+                const upcomingAppointments = appointments.filter(apt => new Date(apt.date + 'T' + apt.time) > now);
+                const upcomingTable = document.querySelector('#upcoming-appointments tbody');
+                
+                if (upcomingAppointments.length === 0) {
+                    upcomingTable.innerHTML = `
+                        <tr class="empty-row">
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-calendar-alt"></i>
+                                <h3>No upcoming appointments</h3>
+                                <p>Book your first appointment to get started</p>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    upcomingTable.innerHTML = '';
+                    upcomingAppointments.forEach((apt, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${new Date(apt.date).toLocaleDateString()}<br>${apt.time}</td>
+                            <td>${apt.doctor}</td>
+                            <td>${apt.specialty}</td>
+                            <td>${apt.location}</td>
+                            <td>
+                                <button class="btn">Details</button>
+                                <button class="btn btn-danger" data-index="${index}">Cancel</button>
+                            </td>
+                        `;
+                        upcomingTable.appendChild(row);
+                    });
+                }
+                
+                // Past appointments
+                const pastAppointments = appointments.filter(apt => new Date(apt.date + 'T' + apt.time) <= now);
+                const pastTable = document.querySelector('#past-appointments tbody');
+                
+                if (pastAppointments.length === 0) {
+                    pastTable.innerHTML = `
+                        <tr class="empty-row">
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-history"></i>
+                                <h3>No past appointments</h3>
+                                <p>Your past appointments will appear here</p>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    pastTable.innerHTML = '';
+                    pastAppointments.forEach((apt, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${new Date(apt.date).toLocaleDateString()}<br>${apt.time}</td>
+                            <td>${apt.doctor}</td>
+                            <td>${apt.specialty}</td>
+                            <td>${apt.notes || 'No notes'}</td>
+                            <td>
+                                <button class="btn">Details</button>
+                                <button class="btn">Records</button>
+                            </td>
+                        `;
+                        pastTable.appendChild(row);
+                    });
+                }
+                
+                // Add cancel event listeners
+                document.querySelectorAll('#upcoming-appointments .btn-danger').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        cancelAppointment(index);
+                    });
+                });
+            }
+            
+            function cancelAppointment(index) {
+                const appointments = JSON.parse(localStorage.getItem('appointments'));
+                appointments.splice(index, 1);
+                localStorage.setItem('appointments', JSON.stringify(appointments));
+                loadAppointments();
+            }
+
+            // Book Appointment Modal
+            const addAppointmentBtn = document.getElementById('add-appointment-btn');
+            const addAppointmentModal = document.getElementById('add-appointment-modal');
+            
+            addAppointmentBtn.addEventListener('click', function() {
+                // Populate doctors dropdown
+                const doctorSelect = document.getElementById('appointment-doctor');
+                doctorSelect.innerHTML = '<option value="">Select doctor</option>';
+                
+                const doctors = JSON.parse(localStorage.getItem('doctors'));
+                doctors.forEach(doctor => {
+                    const option = document.createElement('option');
+                    option.value = doctor.name;
+                    option.textContent = `${doctor.name} (${doctor.specialty})`;
+                    doctorSelect.appendChild(option);
+                });
+                
+                addAppointmentModal.style.display = 'flex';
+            });
+            
+            document.getElementById('close-appointment-modal').addEventListener('click', function() {
+                addAppointmentModal.style.display = 'none';
+            });
+            
+            document.getElementById('cancel-appointment-btn').addEventListener('click', function() {
+                addAppointmentModal.style.display = 'none';
+            });
+            
+            document.getElementById('appointment-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const doctorText = document.getElementById('appointment-doctor').value;
+                const [doctor, specialty] = doctorText.split(' (');
+                
+                const newAppointment = {
+                    doctor: doctor,
+                    specialty: specialty.replace(')', ''),
+                    date: document.getElementById('appointment-date').value,
+                    time: document.getElementById('appointment-time').value,
+                    reason: document.getElementById('appointment-reason').value,
+                    location: 'Clinic', // Would normally get from doctor data
+                    notes: ''
+                };
+                
+                const appointments = JSON.parse(localStorage.getItem('appointments'));
+                appointments.push(newAppointment);
+                localStorage.setItem('appointments', JSON.stringify(appointments));
+                
+                addAppointmentModal.style.display = 'none';
+                this.reset();
+                loadAppointments();
+            });
+
+            // Doctors
+            function loadDoctors() {
+                const doctorsList = document.querySelector('#doctors-list tbody');
+                const doctors = JSON.parse(localStorage.getItem('doctors'));
+                
+                if (doctors.length === 0) {
+                    doctorsList.innerHTML = `
+                        <tr class="empty-row">
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-user-md"></i>
+                                <h3>No doctors registered</h3>
+                                <p>Add your first doctor to get started</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                doctorsList.innerHTML = '';
+                doctors.forEach((doctor, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${doctor.name}</td>
+                        <td>${doctor.specialty}</td>
+                        <td>${doctor.hospital}</td>
+                        <td>${doctor.phone || 'No phone'}</td>
+                        <td>
+                            <button class="btn">Contact</button>
+                            <button class="btn btn-danger" data-index="${index}">Remove</button>
+                        </td>
+                    `;
+                    doctorsList.appendChild(row);
+                });
+                
+                // Add delete event listeners
+                document.querySelectorAll('#doctors-list .btn-danger').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        deleteDoctor(index);
+                    });
+                });
+            }
+            
+            function deleteDoctor(index) {
+                const doctors = JSON.parse(localStorage.getItem('doctors'));
+                doctors.splice(index, 1);
+                localStorage.setItem('doctors', JSON.stringify(doctors));
+                loadDoctors();
+            }
+
+            // Add Doctor Modal
+            const addDoctorBtn = document.getElementById('add-doctor-btn');
+            const addDoctorModal = document.getElementById('add-doctor-modal');
+            
+            addDoctorBtn.addEventListener('click', function() {
+                addDoctorModal.style.display = 'flex';
+            });
+            
+            document.getElementById('close-doctor-modal').addEventListener('click', function() {
+                addDoctorModal.style.display = 'none';
+            });
+            
+            document.getElementById('cancel-doctor-btn').addEventListener('click', function() {
+                addDoctorModal.style.display = 'none';
+            });
+            
+            document.getElementById('doctor-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const newDoctor = {
+                    name: document.getElementById('doctor-name').value,
+                    specialty: document.getElementById('doctor-specialty').value,
+                    hospital: document.getElementById('doctor-hospital').value,
+                    phone: document.getElementById('doctor-phone').value,
+                    email: document.getElementById('doctor-email').value,
+                    address: document.getElementById('doctor-address').value
+                };
+                
+                const doctors = JSON.parse(localStorage.getItem('doctors'));
+                doctors.push(newDoctor);
+                localStorage.setItem('doctors', JSON.stringify(doctors));
+                
+                addDoctorModal.style.display = 'none';
+                this.reset();
+                loadDoctors();
+            });
+
+            // Language Selector
+            function setLanguage(lang) {
+                localStorage.setItem('language', lang);
+                // In a real app, you would implement actual translations here
+                document.querySelector('.language-btn i').nextSibling.textContent = 
+                    lang === 'en' ? 'English' : 
+                    lang === 'es' ? 'Español' : 
+                    lang === 'fr' ? 'Français' : 'Deutsch';
+            }
+            
+            document.querySelectorAll('.language-dropdown a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    setLanguage(lang);
+                    document.querySelector('.language-dropdown').style.display = 'none';
+                });
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
