@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic meta tags for character encoding and responsive design -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Appointment Form</title>
+    <!-- Linking external stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Main container for the form -->
+    <div class="container">
+        <!-- Form title with decorative underline -->
+        <div class="title">Book Your Appointment</div>
+        <!-- Main form element with POST method -->
+        <form id="appointmentForm" action="#" method="POST">
+            <!-- Container for all form fields -->
+            <div class="user-details">
+                <!-- Personal Information Section -->
+                <!-- Full Name input field -->
+                <div class="input-box">
+                    <span class="details">Full Name</span>
+                    <input type="text" id="fullName" placeholder="Enter your name" required>
+                    <i class="fas fa-user"></i>
+                </div>
+                <!-- Phone Number input field -->
+                <div class="input-box">
+                    <span class="details">Phone Number</span>
+                    <input type="tel" id="phoneNumber" placeholder="0912345678" required>
+                    <i class="fas fa-phone"></i>
+                </div>
+                <!-- Email input field (optional) -->
+                <div class="input-box">
+                    <span class="details">Email</span>
+                    <input type="email" id="email" placeholder="Enter your Email (optional)">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <!-- Gender selection radio buttons -->
+                <div class="input-box">
+                    <span class="details">Gender</span>
+                    <div class="category">
+                        <label>
+                            <input type="radio" name="gender" value="male" required>
+                            <span class="gender">Male</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="gender" value="female" required>
+                            <span class="gender">Female</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Hospital and Medical Information Section -->
+                <!-- Hospital selection dropdown -->
+                <div class="input-box">
+                    <span class="details">Select Hospital</span>
+                    <select id="hospital" onchange="toggleCustomHospital()" required>
+                        <option value="">Choose a hospital</option>
+                        <option value="black_lion">Black Lion Hospital - Addis Ababa</option>
+                        <option value="st_paul">St. Paul's Hospital - Addis Ababa</option>
+                        <option value="tikur_anbessa">Tikur Anbessa Specialized Hospital</option>
+                        <option value="yekatit_12">Yekatit 12 Hospital - Addis Ababa</option>
+                        <option value="zewditu">Zewditu Memorial Hospital</option>
+                        <option value="general">General Hospital</option>
+                        <option value="cardiac">Cardiac Center</option>
+                        <option value="pediatric">Children's Hospital</option>
+                        <option value="orthopedic">Orthopedic Center</option>
+                        <option value="dental">Dental Clinic</option>
+                        <option value="custom">Other Hospital (Specify)</option>
+                    </select>
+                    <i class="fas fa-hospital"></i>
+                </div>
+                <!-- Custom Hospital Input (Initially Hidden) -->
+                <div class="input-box" id="customHospitalBox" style="display: none;">
+                    <span class="details">Specify Hospital Name</span>
+                    <input type="text" id="customHospital" placeholder="Enter hospital name">
+                    <i class="fas fa-building"></i>
+                </div>
+                <!-- Medical category selection dropdown -->
+                <div class="input-box">
+                    <span class="details">Medical Category</span>
+                    <select id="medicalCategory" required>
+                        <option value="">Select category</option>
+                        <option value="general">General Check-up</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="orthopedics">Orthopedics</option>
+                        <option value="dentistry">Dentistry</option>
+                        <option value="dermatology">Dermatology</option>
+                        <option value="ophthalmology">Ophthalmology</option>
+                        <option value="neurology">Neurology</option>
+                    </select>
+                    <i class="fas fa-stethoscope"></i>
+                </div>
+
+                <!-- Appointment Scheduling Section -->
+                <!-- Day and Time selection container -->
+                <div class="day-time-container">
+                    <!-- Preferred day selection -->
+                    <div class="day-time-box">
+                        <span class="details">Preferred Day</span>
+                        <div class="day-options">
+                            <label>
+                                <input type="radio" name="day" value="monday" required>
+                                <span>Monday</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="day" value="tuesday" required>
+                                <span>Tuesday</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="day" value="wednesday" required>
+                                <span>Wednesday</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="day" value="thursday" required>
+                                <span>Thursday</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="day" value="friday" required>
+                                <span>Friday</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Preferred time selection -->
+                    <div class="day-time-box">
+                        <span class="details">Preferred Time</span>
+                        <div class="time-options">
+                            <label>
+                                <input type="radio" name="time" value="morning" required>
+                                <span>Morning (9AM - 12PM)</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="time" value="afternoon" required>
+                                <span>Afternoon (1PM - 4PM)</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="time" value="evening" required>
+                                <span>Evening (5PM - 8PM)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Services Section -->
+                <!-- Transportation options -->
+                <div class="input-box">
+                    <span class="details">Transportation</span>
+                    <div class="transport-options">
+                        <label>
+                            <input type="radio" name="transport" value="self" required>
+                            <span>I will come by myself</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="transport" value="pickup" required>
+                            <span>I need hospital pickup service</span>
+                        </label>
+                    </div>
+                </div>
+                <!-- Special needs checkboxes -->
+                <div class="input-box">
+                    <span class="details">Special Needs</span>
+                    <div class="special-needs">
+                        <label>
+                            <input type="checkbox" name="disability" value="wheelchair">
+                            <span>Wheelchair Access Required</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="disability" value="hearing">
+                            <span>Hearing Assistance Required</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="disability" value="vision">
+                            <span>Vision Assistance Required</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="disability" value="other">
+                            <span>Other Special Needs</span>
+                        </label>
+                    </div>
+                </div>
+                <!-- Reason for visit textarea -->
+                <div class="input-box">
+                    <span class="details">Reason for Visit</span>
+                    <textarea id="reason" placeholder="Briefly describe the reason for your visit" required></textarea>
+                </div>
+            </div>
+            <!-- Submit button -->
+            <div class="button">
+                <input type="submit" value="Book Appointment">
+            </div>
+        </form>
+    </div>
+    <!-- JavaScript file for form validation and handling -->
+    <script src="script.js"></script>
+</body>
+</html>
