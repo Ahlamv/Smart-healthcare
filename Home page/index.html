@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Health Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>HealthAI</span>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#" id="profileLink">Profile</a></li>
+                    <li><a href="#" id="bookAppointmentLink">Book Appointment</a></li>
+                    <li><a href="#" id="personalDoctorLink">Personal Doctor</a></li>
+                    <li><a href="#" id="signInLink">Sign In</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="hero">
+                <h1>Your AI Health Assistant</h1>
+                <p>Get personalized health advice and track your wellness journey</p>
+            </section>
+
+            <!-- AI Chat Interface -->
+            <section class="ai-chat">
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot">
+                            <p>Hello! I'm your AI health assistant. How can I help you today?</p>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="userInput" placeholder="Ask me anything about health...">
+                        <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Health Features -->
+            <section class="features">
+                <div class="feature-card">
+                    <i class="fas fa-utensils"></i>
+                    <h3>Nutrition Analysis</h3>
+                    <p>Get detailed nutrition information for any food</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-pills"></i>
+                    <h3>Drug Information</h3>
+                    <p>Access comprehensive drug information</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Appointment Booking</h3>
+                    <p>Schedule appointments with healthcare providers</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Sign In Modal -->
+        <div class="modal" id="signInModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Sign In</h2>
+                <form id="signInForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
