@@ -1,5 +1,4 @@
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
         // Initialize data storage
         if (!localStorage.getItem('medicalHistory')) {
             localStorage.setItem('medicalHistory', JSON.stringify([]));
@@ -444,4 +443,3 @@
             }
         });
     });
-</script>
