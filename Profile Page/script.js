@@ -442,4 +442,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.target.style.display = 'none';
             }
         });
+
+        // Display user information
+        const userData = JSON.parse(sessionStorage.getItem('profileUserData'));
+        
+        if (userData) {
+            // Update profile information
+            document.getElementById('patient-name').textContent = `${userData.firstName} ${userData.lastName}`;
+            document.getElementById('patient-info').textContent = `${userData.age || 'N/A'} years old • ${userData.gender || 'N/A'} • ${userData.bloodType || 'N/A'}`;
+            
+            // Update profile image if available
+            if (userData.profileImage) {
+                document.getElementById('patient-profile-img').src = userData.profileImage;
+            }
+            
+            // Update contact information
+            document.getElementById('email').textContent = userData.email || 'N/A';
+            document.getElementById('phone').textContent = userData.phone || 'N/A';
+            document.getElementById('address').textContent = userData.address || 'N/A';
+            
+            // Update emergency contact information
+            document.getElementById('emergency-contact').textContent = userData.emergencyContact || 'N/A';
+            document.getElementById('emergency-phone').textContent = userData.emergencyPhone || 'N/A';
+        } else {
+            // If no user data, redirect to sign in
+            window.location.href = '../SignIn page/index.html';
+        }
     });

@@ -5,69 +5,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Women's Health Hub</title>
     <link rel="stylesheet" href="girls.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1 style="color: #ff69b4;">Women's Health Hub</h1>
+        <a href="../Home page/index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <h1><i class="fas fa-female"></i> Women's Health Hub</h1>
 
         <!-- Female Doctors Section -->
-        <div class="section">
-            <h2>Connect with Female Doctors</h2>
+        <section class="section">
+            <h2><i class="fas fa-user-md"></i> Connect with Female Doctors</h2>
             <div class="doctor-card">
-                <img src="female-doctor1.jpg" alt="Dr. Sarah" class="doctor-img">
+                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Dr. Sarah" class="doctor-img">
                 <div>
                     <h3>Dr. Sarah Johnson</h3>
-                    <p>Gynecologist | 15 years experience</p>
-                    <button>Schedule Consultation</button>
+                    <p><i class="fas fa-graduation-cap"></i> Gynecologist | 15 years experience</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Addis Ababa General Hospital</p>
+                    <p><i class="fas fa-star"></i> Specializes in: Reproductive Health, Fertility</p>
+                    <button><i class="fas fa-calendar-check"></i> Schedule Consultation</button>
                 </div>
             </div>
             <div class="doctor-card">
-                <img src="female-doctor2.jpg" alt="Dr. Emily" class="doctor-img">
+                <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Dr. Emily" class="doctor-img">
                 <div>
                     <h3>Dr. Emily Chen</h3>
-                    <p>Women's Health Specialist | 12 years experience</p>
-                    <button>Schedule Consultation</button>
+                    <p><i class="fas fa-graduation-cap"></i> Women's Health Specialist | 12 years experience</p>
+                    <p><i class="fas fa-map-marker-alt"></i> St. Mary's Women's Health Center</p>
+                    <p><i class="fas fa-star"></i> Specializes in: Pregnancy Care, Postpartum Support</p>
+                    <button><i class="fas fa-calendar-check"></i> Schedule Consultation</button>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Health Resources -->
+        <section class="section">
+            <h2><i class="fas fa-book-medical"></i> Health Resources</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Pregnancy Care">
+                    <h3>Pregnancy Care Guide</h3>
+                    <p>Comprehensive information about prenatal and postnatal care</p>
+                    <button><i class="fas fa-book-open"></i> Read More</button>
+                </div>
+                <div class="resource-card">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Breast Health">
+                    <h3>Breast Health Awareness</h3>
+                    <p>Learn about self-examination and early detection</p>
+                    <button><i class="fas fa-book-open"></i> Read More</button>
+                </div>
+                <div class="resource-card">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Mental Health">
+                    <h3>Mental Wellness</h3>
+                    <p>Resources for managing stress and emotional well-being</p>
+                    <button><i class="fas fa-book-open"></i> Read More</button>
+                </div>
+            </div>
+        </section>
 
         <!-- Period Tracker -->
-        <div class="section">
+        <section class="section">
             <div class="period-tracker">
-                <h2>Period Tracker</h2>
+                <h2><i class="fas fa-calendar-alt"></i> Period Tracker</h2>
                 <form id="periodForm">
-                    <label for="startDate">Period Start Date:</label>
+                    <label for="startDate"><i class="fas fa-play-circle"></i> Period Start Date:</label>
                     <input type="date" id="startDate" name="startDate">
-                    <label for="endDate">Period End Date:</label>
+                    <label for="endDate"><i class="fas fa-stop-circle"></i> Period End Date:</label>
                     <input type="date" id="endDate" name="endDate">
-                    <button type="submit">Track Period</button>
+                    <button type="submit"><i class="fas fa-save"></i> Track Period</button>
                 </form>
-                <div>
+                <div class="reminder-toggle">
                     <label>
                         <input type="checkbox" id="reminderToggle">
-                        Enable monthly reminders
+                        <i class="fas fa-bell"></i> Enable monthly reminders
                     </label>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Community Forum -->
-        <div class="section">
-            <h2>Women's Health Forum</h2>
-            <div class="forum-section">
-                <h3>Recent Discussions</h3>
-                <div class="discussion-thread">
-                    <h4>Wellness Tips & Support</h4>
-                    <p>Share and discuss health tips with other women...</p>
-                    <button>Join Discussion</button>
+        <!-- Wellness Tips -->
+        <section class="section">
+            <h2><i class="fas fa-heart"></i> Wellness Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <i class="fas fa-apple-alt"></i>
+                    <h3>Nutrition</h3>
+                    <p>Healthy eating habits for women at different life stages</p>
                 </div>
-                <div class="discussion-thread">
-                    <h4>Ask a Doctor</h4>
-                    <p>Get answers from verified female healthcare professionals...</p>
-                    <button>Ask Question</button>
+                <div class="tip-card">
+                    <i class="fas fa-running"></i>
+                    <h3>Exercise</h3>
+                    <p>Workout routines tailored for women's health</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-moon"></i>
+                    <h3>Sleep</h3>
+                    <p>Tips for better sleep and rest</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Stress Management</h3>
+                    <p>Techniques to manage stress and anxiety</p>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Community Forum -->
+        <section class="section">
+            <h2><i class="fas fa-comments"></i> Women's Health Forum</h2>
+            <div class="forum-section">
+                <h3><i class="fas fa-newspaper"></i> Recent Discussions</h3>
+                <div class="discussion-thread">
+                    <h4><i class="fas fa-heart"></i> Wellness Tips & Support</h4>
+                    <p>Share and discuss health tips with other women in our supportive community...</p>
+                    <button><i class="fas fa-comment"></i> Join Discussion</button>
+                </div>
+                <div class="discussion-thread">
+                    <h4><i class="fas fa-stethoscope"></i> Ask a Doctor</h4>
+                    <p>Get answers from verified female healthcare professionals about your health concerns...</p>
+                    <button><i class="fas fa-question-circle"></i> Ask Question</button>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script src="girls.js"></script>

@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
             <div class="logo">
                 <i class="fas fa-heartbeat"></i>
                 <span>HealthAI</span>
@@ -20,20 +20,80 @@
                     <li><a href="../Profile Page/index.html" id="profileLink">Profile</a></li>
                     <li><a href="../Appointment Page/index.html" id="bookAppointmentLink">Book Appointment</a></li>
                     <li><a href="../Personal Doctor/index.html" id="personalDoctorLink">Personal Doctor</a></li>
-                    <li><a href="../SignIn page/index.html" id="signInLink">Sign In</a></li>
+                    <li><a href="../Services/girls.html" id="servicesLink">Services</a></li>
+                    <li><a href="../SignIn page/index.html" id="signInLink">Logout</a></li>
                 </ul>
             </nav>
-        </header>
+        </div>
+    </header>
 
+    <div class="container">
         <!-- Main Content -->
         <main class="main-content">
             <section class="hero">
-                <h1>Your AI Health Assistant</h1>
-                <p>Get personalized health advice and track your wellness journey</p>
+                <div class="hero-content">
+                    <h1>Your AI Health Assistant</h1>
+                    <p>Get personalized health advice and track your wellness journey with our advanced AI technology</p>
+                    <div class="hero-buttons">
+                        <a href="#womens-health-section" class="cta-button">Explore Services</a>
+                        <a href="#about-section" class="secondary-button">Learn More</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Healthcare Professionals">
+                </div>
             </section>
 
-            <!-- AI Chat Interface -->
-            <section class="ai-chat">
+            <!-- Website Features -->
+            <section class="features" id="features-section">
+                <h2 class="section-title">Our Capabilities</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-robot"></i>
+                        <h3>AI-Powered Health Assistant</h3>
+                        <p>Get instant, personalized health advice from our advanced AI assistant, available 24/7</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-user-md"></i>
+                        <h3>Doctor Matching</h3>
+                        <p>Find the perfect healthcare provider based on your needs and preferences</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>Smart Scheduling</h3>
+                        <p>Book appointments with ease and receive automated reminders</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Health Tracking</h3>
+                        <p>Monitor your health metrics and track your wellness journey</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Privacy & Security</h3>
+                        <p>Your health data is protected with enterprise-grade security</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>Mobile Access</h3>
+                        <p>Access your health information anytime, anywhere on any device</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Floating Chat Button -->
+            <button class="chat-button" id="openChat">
+                <i class="fas fa-comment-medical"></i>
+            </button>
+
+            <!-- Chat Modal -->
+            <div class="chat-modal" id="chatModal">
+                <div class="chat-header">
+                    <h3>Health Assistant</h3>
+                    <button class="close-chat" id="closeChat" onclick="closeChatModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
                 <div class="chat-container">
                     <div class="chat-messages" id="chatMessages">
                         <div class="message bot">
@@ -45,44 +105,209 @@
                         <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
+            </div>
+
+            <!-- Women's Health Services -->
+            <section class="womens-health" id="womens-health-section">
+                <h2 class="section-title">Women's Health Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <i class="fas fa-female"></i>
+                        <h3>Reproductive Health</h3>
+                        <p>Comprehensive care for menstrual health, fertility, and family planning</p>
+                        <a href="../Services/girls.html" class="learn-more" data-service="reproductive-health">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-baby"></i>
+                        <h3>Pregnancy Care</h3>
+                        <p>Prenatal and postnatal care with personalized support</p>
+                        <a href="../Services/girls.html" class="learn-more" data-service="pregnancy-care">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Breast Health</h3>
+                        <p>Regular screenings and education for breast cancer prevention</p>
+                        <a href="../Services/girls.html" class="learn-more" data-service="breast-health">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-brain"></i>
+                        <h3>Mental Wellness</h3>
+                        <p>Specialized support for women's mental health and well-being</p>
+                        <a href="../Services/girls.html" class="learn-more" data-service="mental-wellness">Learn More</a>
+                    </div>
+                </div>
             </section>
 
-            <!-- Health Features -->
-            <section class="features">
-                <div class="feature-card">
-                    <i class="fas fa-utensils"></i>
-                    <h3>Nutrition Analysis</h3>
-                    <p>Get detailed nutrition information for any food</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-pills"></i>
-                    <h3>Drug Information</h3>
-                    <p>Access comprehensive drug information</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-calendar-check"></i>
-                    <h3>Appointment Booking</h3>
-                    <p>Schedule appointments with healthcare providers</p>
+            <!-- About Us Section -->
+            <section class="about-us" id="about-section">
+                <div class="about-container">
+                    <h2 class="section-title">About Us</h2>
+                    <div class="about-content">
+                        <div class="about-text">
+                            <div class="mission-vision">
+                                <div class="mission">
+                                    <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                                    <p>We are dedicated to providing accessible and personalized healthcare solutions through innovative technology. Our AI-powered platform connects patients with healthcare professionals, making quality healthcare more accessible to everyone.</p>
+                                </div>
+                                <div class="vision">
+                                    <h3><i class="fas fa-eye"></i> Our Vision</h3>
+                                    <p>To revolutionize healthcare delivery in Ethiopia by leveraging artificial intelligence and digital solutions, ensuring that every individual has access to quality medical care and health information.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="values-section">
+                                <h3><i class="fas fa-heart"></i> Our Values</h3>
+                                <div class="values-grid">
+                                    <div class="value-item">
+                                        <i class="fas fa-heart"></i>
+                                        <h4>Compassion</h4>
+                                        <p>We care deeply about our patients' well-being</p>
+                                    </div>
+                                    <div class="value-item">
+                                        <i class="fas fa-lightbulb"></i>
+                                        <h4>Innovation</h4>
+                                        <p>We continuously improve our services</p>
+                                    </div>
+                                    <div class="value-item">
+                                        <i class="fas fa-handshake"></i>
+                                        <h4>Trust</h4>
+                                        <p>We build relationships based on trust</p>
+                                    </div>
+                                    <div class="value-item">
+                                        <i class="fas fa-users"></i>
+                                        <h4>Community</h4>
+                                        <p>We serve our community with dedication</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="about-stats">
+                            <h3><i class="fas fa-chart-bar"></i> Our Impact</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-number">10,000+</span>
+                                    <span class="stat-label">Patients Served</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">500+</span>
+                                    <span class="stat-label">Healthcare Partners</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">24/7</span>
+                                    <span class="stat-label">AI Support</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">95%</span>
+                                    <span class="stat-label">Patient Satisfaction</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
+    </div>
 
-        <!-- Sign In Modal -->
-        <div class="modal" id="signInModal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Sign In</h2>
-                <form id="signInForm">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" required>
+    <!-- Contact & Support Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>HealthAI</h3>
+                    <p>Your trusted partner in healthcare innovation and digital solutions.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" required>
-                    </div>
-                    <button type="submit">Sign In</button>
-                </form>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#about-section">About Us</a></li>
+                        <li><a href="#features-section">Capabilities</a></li>
+                        <li><a href="#womens-health-section">Services</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Addis Ababa, Ethiopia</li>
+                        <li><i class="fas fa-phone"></i> +251 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> info@healthai.com</li>
+                        <li><i class="fas fa-clock"></i> 24/7 Support Available</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 HealthAI. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sign In Modal -->
+    <div class="modal" id="signInModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Sign In</h2>
+            <form id="signInForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content profile-modal">
+            <span class="close">&times;</span>
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h2>User Profile</h2>
+            </div>
+            <div class="profile-info">
+                <div class="info-group">
+                    <label>Full Name</label>
+                    <p>John Doe</p>
+                </div>
+                <div class="info-group">
+                    <label>Email</label>
+                    <p>john.doe@example.com</p>
+                </div>
+                <div class="info-group">
+                    <label>Phone Number</label>
+                    <p>+251 123 456 789</p>
+                </div>
+                <div class="info-group">
+                    <label>Date of Birth</label>
+                    <p>January 1, 1990</p>
+                </div>
+                <div class="info-group">
+                    <label>Medical History</label>
+                    <p>No significant medical history</p>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="edit-profile">Edit Profile</button>
+                <button class="change-password">Change Password</button>
             </div>
         </div>
     </div>

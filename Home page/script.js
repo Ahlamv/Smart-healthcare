@@ -3,28 +3,273 @@ const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY';
 const NUTRITIONIX_APP_ID = 'YOUR_NUTRITIONIX_APP_ID';
 const NUTRITIONIX_APP_KEY = 'YOUR_NUTRITIONIX_APP_KEY';
 
+// Chatbot API Configuration
+const HUGGING_FACE_API_KEY = 'YOUR_HUGGING_FACE_API_KEY';
+const API_URL = 'https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium';
+
+// API Configuration
+const DEEPSEEK_API_KEY = 'YOUR_DEEPSEEK_API_KEY';
+const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
+
 // DOM Elements
+const chatModal = document.getElementById('chatModal');
+const chatButton = document.getElementById('openChat');
+const closeChat = document.getElementById('closeChat');
 const chatMessages = document.getElementById('chatMessages');
-const userInput = document.getElementById('userInput');
-const sendMessage = document.getElementById('sendMessage');
+const chatInput = document.getElementById('userInput');
+const sendButton = document.getElementById('sendMessage');
 const signInModal = document.getElementById('signInModal');
 const signInLink = document.getElementById('signInLink');
 const closeModal = document.querySelector('.close');
 const signInForm = document.getElementById('signInForm');
+const header = document.querySelector('.header');
+
+// Profile Modal Functionality
+const profileLink = document.getElementById('profileLink');
+const profileModal = document.getElementById('profileModal');
+const closeButtons = document.querySelectorAll('.close');
+
+profileLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    profileModal.style.display = 'block';
+});
+
+closeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        profileModal.style.display = 'none';
+    });
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === profileModal) {
+        profileModal.style.display = 'none';
+    }
+});
+
+// Edit Profile Functionality
+const editProfileBtn = document.querySelector('.edit-profile');
+const infoGroups = document.querySelectorAll('.info-group p');
+
+editProfileBtn.addEventListener('click', () => {
+    infoGroups.forEach(group => {
+        const currentValue = group.textContent;
+        const label = group.previousElementSibling.textContent;
+        group.innerHTML = `<input type="text" value="${currentValue}" placeholder="${label}">`;
+    });
+    
+    editProfileBtn.textContent = 'Save Changes';
+    editProfileBtn.classList.add('save-profile');
+    
+    // Remove the click event and add new one for saving
+    editProfileBtn.replaceWith(editProfileBtn.cloneNode(true));
+    const newEditBtn = document.querySelector('.edit-profile');
+    
+    newEditBtn.addEventListener('click', () => {
+        infoGroups.forEach(group => {
+            const input = group.querySelector('input');
+            group.textContent = input.value;
+        });
+        
+        newEditBtn.textContent = 'Edit Profile';
+        newEditBtn.classList.remove('save-profile');
+    });
+});
+
+// Chat Modal Functionality
+// Show chat modal when chat button is clicked
+chatButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    chatModal.style.display = 'flex';
+});
+
+// Close chat modal
+function closeChatModal() {
+    chatModal.style.display = 'none';
+}
+
+// Close button functionality
+closeChat.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeChatModal();
+});
+
+// Close when clicking outside
+document.addEventListener('click', (e) => {
+    if (chatModal.style.display === 'flex' && 
+        !chatModal.contains(e.target) && 
+        e.target !== chatButton) {
+        closeChatModal();
+    }
+});
+
+// Prevent closing when clicking inside
+chatModal.addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+
+// Initialize chat
+function initializeChat() {
+    chatMessages.innerHTML = '';
+    const welcomeMessage = document.createElement('div');
+    welcomeMessage.className = 'message bot';
+    welcomeMessage.innerHTML = `
+        <p>Hello! I'm your AI Health Assistant. How can I help you today?</p>
+        <div class="quick-answers">
+            <button class="quick-answer" data-category="general">General Health</button>
+            <button class="quick-answer" data-category="mental">Mental Health</button>
+            <button class="quick-answer" data-category="women">Women's Health</button>
+            <button class="quick-answer" data-category="preventive">Preventive Care</button>
+        </div>
+    `;
+    chatMessages.appendChild(welcomeMessage);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Initialize chat when page loads
+initializeChat();
+
+// Chat functionality
+let chatHistory = [];
+
+// Function to add a message to the chat
+function addMessage(message, isUser = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+    messageDiv.innerHTML = `<p>${message}</p>`;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // Add to chat history
+    chatHistory.push({
+        role: isUser ? 'user' : 'assistant',
+        content: message
+    });
+}
+
+// Function to get AI response
+async function getAIResponse(userMessage) {
+    try {
+        // Show loading indicator
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'message bot loading';
+        loadingDiv.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+        chatMessages.appendChild(loadingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Simulate AI response (replace with actual API call)
+        const responses = {
+            'general': [
+                "Maintaining good health involves regular exercise, balanced diet, and adequate sleep.",
+                "Common symptoms to watch for include persistent fatigue, unexplained weight changes, and chronic pain.",
+                "Regular check-ups are important for preventive care and early detection of health issues."
+            ],
+            'mental': [
+                "Mental health is as important as physical health. Practice self-care and seek help when needed.",
+                "Common signs of mental health issues include changes in mood, sleep patterns, and social behavior.",
+                "Regular exercise, meditation, and maintaining social connections can improve mental well-being."
+            ],
+            'women': [
+                "Women's health needs change throughout life stages. Regular screenings are important.",
+                "Common women's health concerns include reproductive health, breast health, and hormonal changes.",
+                "Maintaining a healthy lifestyle and regular check-ups are crucial for women's health."
+            ],
+            'preventive': [
+                "Preventive care includes regular check-ups, vaccinations, and healthy lifestyle choices.",
+                "Early detection of health issues through regular screenings can improve treatment outcomes.",
+                "Maintaining a healthy weight, not smoking, and regular exercise are key preventive measures."
+            ]
+        };
+
+        // Remove loading indicator
+        chatMessages.removeChild(loadingDiv);
+
+        // Get a random response based on the category
+        const categories = Object.keys(responses);
+        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+        const randomResponse = responses[randomCategory][Math.floor(Math.random() * responses[randomCategory].length)];
+        
+        // Add AI response
+        addMessage(randomResponse);
+    } catch (error) {
+        console.error('Error getting AI response:', error);
+        addMessage("I'm sorry, I'm having trouble processing your request. Please try again later.");
+    }
+}
+
+// Handle send button click
+sendButton.addEventListener('click', () => {
+    const message = chatInput.value.trim();
+    if (message) {
+        // Add user message
+        addMessage(message, true);
+        
+        // Get AI response
+        getAIResponse(message);
+        
+        // Clear input
+        chatInput.value = '';
+    }
+});
+
+// Handle enter key in chat input
+chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const message = chatInput.value.trim();
+        if (message) {
+            // Add user message
+            addMessage(message, true);
+            
+            // Get AI response
+            getAIResponse(message);
+            
+            // Clear input
+            chatInput.value = '';
+        }
+    }
+});
+
+// Handle quick answer clicks
+document.querySelectorAll('.quick-answer').forEach(button => {
+    button.addEventListener('click', () => {
+        const category = button.dataset.category;
+        const message = `Tell me about ${category} health`;
+        addMessage(message, true);
+        getAIResponse(message);
+    });
+});
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Sign In Modal
-    signInLink.addEventListener('click', () => signInModal.style.display = 'block');
+    // Profile link functionality
+    document.getElementById('profileLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        // Get user data from localStorage
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (userData) {
+            // Store user data in sessionStorage for the profile page
+            sessionStorage.setItem('profileUserData', JSON.stringify(userData));
+            // Navigate to profile page
+            window.location.href = '../Profile Page/index.html';
+        } else {
+            // If no user data, redirect to sign in
+            window.location.href = '../SignIn page/index.html';
+        }
+    });
+
+    // Logout functionality
+    signInLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Clear any stored user session data
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userData');
+        // Redirect to sign in page
+        window.location.href = '../SignIn page/index.html';
+    });
+
+    // Close button functionality
     closeModal.addEventListener('click', () => signInModal.style.display = 'none');
     window.addEventListener('click', (e) => {
         if (e.target === signInModal) signInModal.style.display = 'none';
-    });
-
-    // Chat functionality
-    sendMessage.addEventListener('click', handleUserMessage);
-    userInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleUserMessage();
     });
 
     // Sign In Form
@@ -33,13 +278,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Bootstrap components
     const signInModalBootstrap = new bootstrap.Modal(document.getElementById('signInModal'));
     
-    // Event listeners for navbar links
-    document.getElementById('profileLink').addEventListener('click', function(e) {
-        e.preventDefault();
-        // Add profile page navigation logic here
-        console.log('Navigate to profile');
-    });
-
     // Book Appointment link handler
     document.getElementById('bookAppointmentLink').addEventListener('click', function(e) {
         e.preventDefault();
@@ -53,124 +291,61 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add personal doctor page navigation logic here
         console.log('Navigate to personal doctor');
     });
-});
 
-// Handle User Messages
-async function handleUserMessage() {
-    const message = userInput.value.trim();
-    if (!message) return;
+    // Service-related questions for the chatbot
+    const serviceQuestions = {
+        'reproductive-health': [
+            'What are the common menstrual health issues?',
+            'How can I track my fertility?',
+            'What are the different family planning options?'
+        ],
+        'pregnancy-care': [
+            'What should I expect during prenatal care?',
+            'How can I prepare for childbirth?',
+            'What are the important postnatal care tips?'
+        ],
+        'breast-health': [
+            'How often should I get breast cancer screening?',
+            'What are the early signs of breast cancer?',
+            'How can I perform a self-breast examination?'
+        ],
+        'mental-wellness': [
+            'What are common mental health issues in women?',
+            'How can I manage stress and anxiety?',
+            'What are the signs of postpartum depression?'
+        ]
+    };
 
-    // Add user message to chat
-    addMessage(message, 'user');
-    userInput.value = '';
-
-    // Process message and get AI response
-    const response = await processMessage(message);
-    addMessage(response, 'bot');
-}
-
-// Add message to chat
-function addMessage(text, sender) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${sender}`;
-    messageDiv.innerHTML = `<p>${text}</p>`;
-    chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-// Process message and get AI response
-async function processMessage(message) {
-    try {
-        // Check if message contains food-related keywords
-        if (message.toLowerCase().includes('nutrition') || message.toLowerCase().includes('food')) {
-            return await getNutritionInfo(message);
-        }
-        // Check if message contains drug-related keywords
-        else if (message.toLowerCase().includes('drug') || message.toLowerCase().includes('medicine')) {
-            return await getDrugInfo(message);
-        }
-        // Use OpenAI for general health queries
-        else {
-            return await getAIResponse(message);
-        }
-    } catch (error) {
-        console.error('Error processing message:', error);
-        return 'I apologize, but I encountered an error processing your request. Please try again.';
-    }
-}
-
-// Get AI response using OpenAI
-async function getAIResponse(message) {
-    try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [{
-                    role: 'system',
-                    content: 'You are a helpful health assistant. Provide accurate and helpful health information.'
-                }, {
-                    role: 'user',
-                    content: message
-                }]
-            })
+    // Handle Learn More button clicks
+    document.querySelectorAll('.learn-more').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const service = e.target.dataset.service;
+            const questions = serviceQuestions[service];
+            
+            // Open chat modal
+            chatModal.style.display = 'flex';
+            
+            // Clear existing messages
+            chatMessages.innerHTML = '';
+            
+            // Add bot's initial message
+            const botMessage = document.createElement('div');
+            botMessage.className = 'message bot';
+            botMessage.innerHTML = `
+                <p>I can help you with ${service.replace('-', ' ')}. Here are some common questions you might have:</p>
+                <ul>
+                    ${questions.map(q => `<li>${q}</li>`).join('')}
+                </ul>
+                <p>Feel free to ask any of these questions or ask something else!</p>
+            `;
+            chatMessages.appendChild(botMessage);
+            
+            // Focus on input
+            chatInput.focus();
         });
-
-        const data = await response.json();
-        return data.choices[0].message.content;
-    } catch (error) {
-        console.error('Error getting AI response:', error);
-        return 'I apologize, but I am unable to process your request at the moment.';
-    }
-}
-
-// Get nutrition information using Nutritionix API
-async function getNutritionInfo(query) {
-    try {
-        const response = await fetch(`https://api.nutritionix.com/v1_1/search/${encodeURIComponent(query)}?results=0:1&fields=item_name,nf_calories,nf_total_fat,nf_protein,nf_total_carbohydrate&appId=${NUTRITIONIX_APP_ID}&appKey=${NUTRITIONIX_APP_KEY}`);
-        const data = await response.json();
-        
-        if (data.hits && data.hits.length > 0) {
-            const item = data.hits[0].fields;
-            return `Nutrition information for ${item.item_name}:\n` +
-                   `Calories: ${item.nf_calories}\n` +
-                   `Total Fat: ${item.nf_total_fat}g\n` +
-                   `Protein: ${item.nf_protein}g\n` +
-                   `Carbohydrates: ${item.nf_total_carbohydrate}g`;
-        } else {
-            return 'I couldn\'t find nutrition information for that item. Please try a different food item.';
-        }
-    } catch (error) {
-        console.error('Error getting nutrition info:', error);
-        return 'I apologize, but I am unable to retrieve nutrition information at the moment.';
-    }
-}
-
-// Get drug information using OpenFDA API
-async function getDrugInfo(query) {
-    try {
-        const response = await fetch(`https://api.fda.gov/drug/label.json?search=${encodeURIComponent(query)}&limit=1`);
-        const data = await response.json();
-        
-        if (data.results && data.results.length > 0) {
-            const drug = data.results[0];
-            return `Information about ${drug.brand_name || 'this drug'}:\n` +
-                   `Generic Name: ${drug.generic_name}\n` +
-                   `Purpose: ${drug.purpose}\n` +
-                   `Warnings: ${drug.warnings}\n` +
-                   `Side Effects: ${drug.adverse_reactions}`;
-        } else {
-            return 'I couldn\'t find information about that drug. Please try a different drug name.';
-        }
-    } catch (error) {
-        console.error('Error getting drug info:', error);
-        return 'I apologize, but I am unable to retrieve drug information at the moment.';
-    }
-}
+    });
+});
 
 // Handle Sign In
 function handleSignIn(e) {
@@ -183,4 +358,95 @@ function handleSignIn(e) {
     
     // For demo purposes, we'll just close the modal
     signInModal.style.display = 'none';
-} 
+}
+
+// Update the existing sendMessage function to handle service-specific responses
+const originalSendMessage = window.sendMessage;
+window.sendMessage = async function() {
+    const userInput = document.getElementById('userInput');
+    const message = userInput.value.trim();
+    
+    if (message) {
+        // Add user message to chat
+        const chatMessages = document.getElementById('chatMessages');
+        const userMessage = document.createElement('div');
+        userMessage.className = 'message user';
+        userMessage.innerHTML = `<p>${message}</p>`;
+        chatMessages.appendChild(userMessage);
+        
+        // Clear input
+        userInput.value = '';
+        
+        // Show loading message
+        const loadingMessage = document.createElement('div');
+        loadingMessage.className = 'message bot';
+        loadingMessage.innerHTML = '<p>Thinking...</p>';
+        chatMessages.appendChild(loadingMessage);
+        
+        try {
+            // Call the health API with service-specific context
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${OPENAI_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: "gpt-3.5-turbo",
+                    messages: [
+                        {
+                            role: "system",
+                            content: "You are a helpful health assistant specializing in women's health. Provide accurate, helpful, and safe health information. Always remind users to consult with healthcare professionals for medical advice."
+                        },
+                        {
+                            role: "user",
+                            content: message
+                        }
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 500
+                })
+            });
+            
+            const data = await response.json();
+            
+            // Remove loading message
+            chatMessages.removeChild(loadingMessage);
+            
+            // Add bot response
+            if (data.choices && data.choices[0]) {
+                const botResponse = document.createElement('div');
+                botResponse.className = 'message bot';
+                botResponse.innerHTML = `<p>${data.choices[0].message.content}</p>`;
+                chatMessages.appendChild(botResponse);
+            } else {
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'message bot';
+                errorMessage.innerHTML = '<p>I\'m sorry, I couldn\'t process your request. Please try again.</p>';
+                chatMessages.appendChild(errorMessage);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Remove loading message
+            chatMessages.removeChild(loadingMessage);
+            
+            // Add error message
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'message bot';
+            errorMessage.innerHTML = '<p>I\'m sorry, there was an error processing your request. Please try again later.</p>';
+            chatMessages.appendChild(errorMessage);
+        }
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+};
+
+// Header scroll effect
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+}); 
