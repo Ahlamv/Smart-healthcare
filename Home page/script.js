@@ -1,5 +1,5 @@
 // API Configuration
-const OPENAI_API_KEY = 'selam-aab6a227c57c4506878e1a3143dfebc7';
+const OPENAI_API_KEY = 'selam-cc2ffb45ff774d568422f84161b9d04d';
 const OPENAI_BASE_URL = 'https://selamapi.vercel.app/v1';
 const NUTRITIONIX_APP_ID = 'YOUR_NUTRITIONIX_APP_ID';
 const NUTRITIONIX_APP_KEY = 'YOUR_NUTRITIONIX_APP_KEY';
@@ -146,15 +146,11 @@ async function getAIResponse(userMessage) {
 
         // Prepare the messages array
         const messages = [
-            { role: "system", content: "You are helpful." },
+            { role: "system", content: "You are a helpful assistant." },
             { role: "user", content: userMessage }
         ];
 
-        console.log('Sending request to:', `${OPENAI_BASE_URL}/chat/completions`);
-        console.log('Request body:', JSON.stringify({
-            model: "gpt-4o",
-            messages: messages
-        }, null, 2));
+        console.log('Making API call to:', `${OPENAI_BASE_URL}/chat/completions`);
 
         // Make API call
         const response = await fetch(`${OPENAI_BASE_URL}/chat/completions`, {
@@ -169,23 +165,33 @@ async function getAIResponse(userMessage) {
             })
         });
 
-        console.log('Response status:', response.status);
         const responseText = await response.text();
-        console.log('Response text:', responseText);
+        console.log('Raw API Response:', responseText);
 
         if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}: ${responseText}`);
+            throw new Error(`API Error: ${response.status} - ${responseText}`);
         }
 
-        const data = JSON.parse(responseText);
-        console.log('Parsed response:', data);
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (e) {
+            console.error('Failed to parse API response:', e);
+            throw new Error('Invalid API response format');
+        }
+
+        console.log('Parsed API Response:', data);
         
         // Remove loading indicator
         chatMessages.removeChild(loadingDiv);
 
-        // Add AI response to chat
-        const aiResponse = data.choices[0].message.content;
-        addMessage(aiResponse);
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+            // Add AI response to chat
+            const aiResponse = data.choices[0].message.content;
+            addMessage(aiResponse);
+        } else {
+            throw new Error('Invalid response format from API');
+        }
 
     } catch (error) {
         console.error('Error getting AI response:', error);
@@ -194,7 +200,7 @@ async function getAIResponse(userMessage) {
         if (loadingElement) {
             chatMessages.removeChild(loadingElement);
         }
-        addMessage("I apologize, but I'm having trouble connecting to the service right now. Please try again later.");
+        addMessage(`I apologize, but I encountered an error: ${error.message}. Please check the console for more details.`);
     }
 }
 
