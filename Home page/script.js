@@ -24,57 +24,6 @@ const closeModal = document.querySelector('.close');
 const signInForm = document.getElementById('signInForm');
 const header = document.querySelector('.header');
 
-// Profile Modal Functionality
-const profileLink = document.getElementById('profileLink');
-const profileModal = document.getElementById('profileModal');
-const closeButtons = document.querySelectorAll('.close');
-
-profileLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    profileModal.style.display = 'block';
-});
-
-closeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        profileModal.style.display = 'none';
-    });
-});
-
-window.addEventListener('click', (e) => {
-    if (e.target === profileModal) {
-        profileModal.style.display = 'none';
-    }
-});
-
-// Edit Profile Functionality
-const editProfileBtn = document.querySelector('.edit-profile');
-const infoGroups = document.querySelectorAll('.info-group p');
-
-editProfileBtn.addEventListener('click', () => {
-    infoGroups.forEach(group => {
-        const currentValue = group.textContent;
-        const label = group.previousElementSibling.textContent;
-        group.innerHTML = `<input type="text" value="${currentValue}" placeholder="${label}">`;
-    });
-    
-    editProfileBtn.textContent = 'Save Changes';
-    editProfileBtn.classList.add('save-profile');
-    
-    // Remove the click event and add new one for saving
-    editProfileBtn.replaceWith(editProfileBtn.cloneNode(true));
-    const newEditBtn = document.querySelector('.edit-profile');
-    
-    newEditBtn.addEventListener('click', () => {
-        infoGroups.forEach(group => {
-            const input = group.querySelector('input');
-            group.textContent = input.value;
-        });
-        
-        newEditBtn.textContent = 'Edit Profile';
-        newEditBtn.classList.remove('save-profile');
-    });
-});
-
 // Chat Modal Functionality
 // Show chat modal when chat button is clicked
 chatButton.addEventListener('click', (e) => {
@@ -113,7 +62,7 @@ function initializeChat() {
     const welcomeMessage = document.createElement('div');
     welcomeMessage.className = 'message bot';
     welcomeMessage.innerHTML = `
-        <p>Hello! I'm your AI Health Assistant. How can I help you today?</p>
+        <p>Hello! I'm your AI health assistant. How can I help you today?</p>
         <div class="quick-answers">
             <button class="quick-answer" data-category="general">General Health</button>
             <button class="quick-answer" data-category="mental">Mental Health</button>
@@ -359,88 +308,6 @@ function handleSignIn(e) {
     // For demo purposes, we'll just close the modal
     signInModal.style.display = 'none';
 }
-
-// Update the existing sendMessage function to handle service-specific responses
-const originalSendMessage = window.sendMessage;
-window.sendMessage = async function() {
-    const userInput = document.getElementById('userInput');
-    const message = userInput.value.trim();
-    
-    if (message) {
-        // Add user message to chat
-        const chatMessages = document.getElementById('chatMessages');
-        const userMessage = document.createElement('div');
-        userMessage.className = 'message user';
-        userMessage.innerHTML = `<p>${message}</p>`;
-        chatMessages.appendChild(userMessage);
-        
-        // Clear input
-        userInput.value = '';
-        
-        // Show loading message
-        const loadingMessage = document.createElement('div');
-        loadingMessage.className = 'message bot';
-        loadingMessage.innerHTML = '<p>Thinking...</p>';
-        chatMessages.appendChild(loadingMessage);
-        
-        try {
-            // Call the health API with service-specific context
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${OPENAI_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: "gpt-3.5-turbo",
-                    messages: [
-                        {
-                            role: "system",
-                            content: "You are a helpful health assistant specializing in women's health. Provide accurate, helpful, and safe health information. Always remind users to consult with healthcare professionals for medical advice."
-                        },
-                        {
-                            role: "user",
-                            content: message
-                        }
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 500
-                })
-            });
-            
-            const data = await response.json();
-            
-            // Remove loading message
-            chatMessages.removeChild(loadingMessage);
-            
-            // Add bot response
-            if (data.choices && data.choices[0]) {
-                const botResponse = document.createElement('div');
-                botResponse.className = 'message bot';
-                botResponse.innerHTML = `<p>${data.choices[0].message.content}</p>`;
-                chatMessages.appendChild(botResponse);
-            } else {
-                const errorMessage = document.createElement('div');
-                errorMessage.className = 'message bot';
-                errorMessage.innerHTML = '<p>I\'m sorry, I couldn\'t process your request. Please try again.</p>';
-                chatMessages.appendChild(errorMessage);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            // Remove loading message
-            chatMessages.removeChild(loadingMessage);
-            
-            // Add error message
-            const errorMessage = document.createElement('div');
-            errorMessage.className = 'message bot';
-            errorMessage.innerHTML = '<p>I\'m sorry, there was an error processing your request. Please try again later.</p>';
-            chatMessages.appendChild(errorMessage);
-        }
-        
-        // Scroll to bottom
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-};
 
 // Header scroll effect
 window.addEventListener('scroll', () => {
