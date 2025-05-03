@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Medical Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="nav-header">
+        <div class="logo">
+            <a href="../Home page/index.html">
+                <i class="fas fa-heartbeat"></i>
+                <span>HealthAI</span>
+            </a>
+        </div>
+    </header>
+    <!-- Registration Modal -->
+    <div class="modal" id="registration-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Complete Your Medical Profile</h3>
+            </div>
+            <form id="registration-form">
+                <div class="form-group" style="text-align: center;">
+                    <img id="profile-preview" class="profile-preview" src="https://via.placeholder.com/100" alt="Profile Preview">
+                    <input type="file" id="profile-picture" class="form-control" style="display: none;" accept="image/*">
+                    <button type="button" class="btn" id="upload-profile-btn" style="margin-top: 10px;">
+                        <i class="fas fa-camera"></i> Upload Photo
+                    </button>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" class="form-control" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" class="form-control" required>
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            <option value="prefer-not-to-say">Prefer not to say</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="blood-type">Blood Type</label>
+                        <select id="blood-type" class="form-control">
+                            <option value="">Unknown</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" class="form-control">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emergency-contact">Emergency Contact Name</label>
+                    <input type="text" id="emergency-contact" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="emergency-phone">Emergency Phone</label>
+                    <input type="tel" id="emergency-phone" class="form-control">
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Complete Registration</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="main-container">
+        <div class="header">
+            <h1>My Medical Profile</h1>
+            <div class="patient-info">
+                <img id="patient-profile-img" src="https://via.placeholder.com/50" alt="Patient Profile">
+                <div class="patient-details">
+                    <h3 id="patient-name">John Doe</h3>
+                    <p id="patient-info">35 years old • Male • O+</p>
+                </div>
+                <div class="language-selector">
+                    <button class="language-btn">
+                        <i class="fas fa-globe"></i> English
+                    </button>
+                    <div class="language-dropdown">
+                        <a href="#" data-lang="en"><i class="fas fa-check"></i> English</a>
+                        <a href="#" data-lang="es">Español</a>
+                        <a href="#" data-lang="fr">Français</a>
+                        <a href="#" data-lang="de">Deutsch</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="medical-history">Medical History</button>
+            <button class="tab-btn" data-tab="appointments">Appointments</button>
+            <button class="tab-btn" data-tab="doctors">My Doctors</button>
+        </div>
+
+        <!-- Medical History Tab -->
+        <div id="medical-history" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Medical Records</h3>
+                    <button class="btn" id="add-history-btn">
+                        <i class="fas fa-plus"></i> Add Record
+                    </button>
+                </div>
+                
+                <div id="history-list">
+                    <!-- History items will be added here dynamically -->
+                    <div class="empty-state">
+                        <i class="fas fa-file-medical"></i>
+                        <h3>No medical records yet</h3>
+                        <p>Add your first medical record to get started</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointments Tab -->
+        <div id="appointments" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Upcoming Appointments</h3>
+                    <button class="btn" id="add-appointment-btn">
+                        <i class="fas fa-plus"></i> Book Appointment
+                    </button>
+                </div>
+                
+                <table class="table" id="upcoming-appointments">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Doctor</th>
+                            <th>Specialty</th>
+                            <th>Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Appointments will be added here dynamically -->
+                        <tr class="empty-row">
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-calendar-alt"></i>
+                                <h3>No upcoming appointments</h3>
+                                <p>Book your first appointment to get started</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Past Appointments</h3>
+                </div>
+                
+                <table class="table" id="past-appointments">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Doctor</th>
+                            <th>Specialty</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Past appointments will be added here dynamically -->
+                        <tr class="empty-row">
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-history"></i>
+                                <h3>No past appointments</h3>
+                                <p>Your past appointments will appear here</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Doctors Tab -->
+        <div id="doctors" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>My Doctors</h3>
+                    <button class="btn" id="add-doctor-btn">
+                        <i class="fas fa-plus"></i> Register Doctor
+                    </button>
+                </div>
+                
+                <table class="table" id="doctors-list">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Specialty</th>
+                            <th>Location</th>
+                            <th>Contact</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Doctors will be added here dynamically -->
+                        <tr class="empty-row">
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-user-md"></i>
+                                <h3>No doctors registered</h3>
+                                <p>Add your first doctor to get started</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add Medical Record Modal -->
+        <div class="modal" id="add-record-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Medical Record</h3>
+                    <button class="close-btn" id="close-record-modal">&times;</button>
+                </div>
+                <form id="medical-record-form">
+                    <div class="form-group">
+                        <label for="record-title">Title</label>
+                        <input type="text" id="record-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="record-date">Date</label>
+                        <input type="date" id="record-date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="record-type">Record Type</label>
+                        <select id="record-type" class="form-control" required>
+                            <option value="">Select type</option>
+                            <option value="diagnosis">Diagnosis</option>
+                            <option value="treatment">Treatment</option>
+                            <option value="procedure">Procedure</option>
+                            <option value="test">Test Result</option>
+                            <option value="note">Doctor's Note</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="record-specialty">Medical Specialty</label>
+                        <input type="text" id="record-specialty" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="record-description">Description</label>
+                        <textarea id="record-description" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="record-attachment">Attach Files</label>
+                        <input type="file" id="record-attachment" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="cancel-record-btn">Cancel</button>
+                        <button type="submit" class="btn btn-success">Save Record</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Book Appointment Modal -->
+        <div class="modal" id="add-appointment-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Book Appointment</h3>
+                    <button class="close-btn" id="close-appointment-modal">&times;</button>
+                </div>
+                <form id="appointment-form">
+                    <div class="form-group">
+                        <label for="appointment-doctor">Select Doctor</label>
+                        <select id="appointment-doctor" class="form-control" required>
+                            <option value="">Select doctor</option>
+                            <!-- Doctors will be added here dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-date">Date</label>
+                        <input type="date" id="appointment-date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-time">Time</label>
+                        <input type="time" id="appointment-time" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-reason">Reason for Visit</label>
+                        <textarea id="appointment-reason" class="form-control" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="cancel-appointment-btn">Cancel</button>
+                        <button type="submit" class="btn btn-success">Book Appointment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Register Doctor Modal -->
+        <div class="modal" id="add-doctor-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Register New Doctor</h3>
+                    <button class="close-btn" id="close-doctor-modal">&times;</button>
+                </div>
+                <form id="doctor-form">
+                    <div class="form-group">
+                        <label for="doctor-name">Doctor's Name</label>
+                        <input type="text" id="doctor-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-specialty">Specialty</label>
+                        <input type="text" id="doctor-specialty" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-hospital">Hospital/Clinic</label>
+                        <input type="text" id="doctor-hospital" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-phone">Phone Number</label>
+                        <input type="tel" id="doctor-phone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-email">Email</label>
+                        <input type="email" id="doctor-email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-address">Address</label>
+                        <textarea id="doctor-address" class="form-control"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="cancel-doctor-btn">Cancel</button>
+                        <button type="submit" class="btn btn-success">Register Doctor</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
