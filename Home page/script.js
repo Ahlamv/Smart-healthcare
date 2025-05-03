@@ -1,5 +1,5 @@
-// API Keys (Replace with your actual API keys)
-const OPENAI_API_KEY = 'selam-cc2ffb45ff774d568422f84161b9d04d';
+// API Configuration
+const OPENAI_API_KEY = 'selam-aab6a227c57c4506878e1a3143dfebc7';
 const OPENAI_BASE_URL = 'https://selamapi.vercel.app/v1';
 const NUTRITIONIX_APP_ID = 'YOUR_NUTRITIONIX_APP_ID';
 const NUTRITIONIX_APP_KEY = 'YOUR_NUTRITIONIX_APP_KEY';
@@ -51,57 +51,70 @@ if (menuToggle && nav) {
 }
 
 // Chat Modal Functionality
-// Show chat modal when chat button is clicked
-chatButton.addEventListener('click', (e) => {
-    e.stopPropagation();
-    chatModal.style.display = 'flex';
-});
+if (chatButton && chatModal) {
+    // Show chat modal when chat button is clicked
+    chatButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        chatModal.style.display = 'flex';
+        chatModal.classList.add('show');
+        chatInput.focus();
+    });
 
-// Close chat modal
-function closeChatModal() {
-    chatModal.style.display = 'none';
-}
-
-// Close button functionality
-closeChat.addEventListener('click', (e) => {
-    e.stopPropagation();
-    closeChatModal();
-});
-
-// Close when clicking outside
-document.addEventListener('click', (e) => {
-    if (chatModal.style.display === 'flex' && 
-        !chatModal.contains(e.target) && 
-        e.target !== chatButton) {
-        closeChatModal();
+    // Close chat modal
+    function closeChatModal() {
+        chatModal.classList.remove('show');
+        setTimeout(() => {
+            chatModal.style.display = 'none';
+        }, 300); // Match the transition duration
     }
-});
 
-// Prevent closing when clicking inside
-chatModal.addEventListener('click', (e) => {
-    e.stopPropagation();
-});
+    // Close button functionality
+    if (closeChat) {
+        closeChat.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeChatModal();
+        });
+    }
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+        if (chatModal.style.display === 'flex' && 
+            !chatModal.contains(e.target) && 
+            e.target !== chatButton) {
+            closeChatModal();
+        }
+    });
+
+    // Prevent closing when clicking inside
+    chatModal.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+}
 
 // Initialize chat
 function initializeChat() {
-    chatMessages.innerHTML = '';
-    const welcomeMessage = document.createElement('div');
-    welcomeMessage.className = 'message bot';
-    welcomeMessage.innerHTML = `
-        <p>Hello! I'm your AI health assistant. How can I help you today?</p>
-        <div class="quick-answers">
-            <button class="quick-answer" data-category="general">General Health</button>
-            <button class="quick-answer" data-category="mental">Mental Health</button>
-            <button class="quick-answer" data-category="women">Women's Health</button>
-            <button class="quick-answer" data-category="preventive">Preventive Care</button>
-        </div>
-    `;
-    chatMessages.appendChild(welcomeMessage);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    if (chatMessages) {
+        chatMessages.innerHTML = '';
+        const welcomeMessage = document.createElement('div');
+        welcomeMessage.className = 'message bot';
+        welcomeMessage.innerHTML = `
+            <p>Hello! I'm your AI assistant. How can I help you today?</p>
+            <div class="quick-answers">
+                <button class="quick-answer" data-category="general">General Questions</button>
+                <button class="quick-answer" data-category="help">Help</button>
+            </div>
+        `;
+        chatMessages.appendChild(welcomeMessage);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 }
 
 // Initialize chat when page loads
-initializeChat();
+document.addEventListener('DOMContentLoaded', function() {
+    initializeChat();
+});
 
 // Chat functionality
 let chatHistory = [];
@@ -131,22 +144,19 @@ async function getAIResponse(userMessage) {
         chatMessages.appendChild(loadingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Prepare the messages array with chat history
+        // Prepare the messages array
         const messages = [
-            { role: "system", content: "You are a helpful and knowledgeable health assistant. Provide accurate, clear, and concise health-related information. If you're unsure about something, say so and recommend consulting a healthcare professional." }
+            { role: "system", content: "You are helpful." },
+            { role: "user", content: userMessage }
         ];
 
-        // Add chat history
-        chatHistory.forEach(msg => {
-            messages.push({ role: msg.role, content: msg.content });
-        });
+        console.log('Sending request to:', `${OPENAI_BASE_URL}/chat/completions`);
+        console.log('Request body:', JSON.stringify({
+            model: "gpt-4o",
+            messages: messages
+        }, null, 2));
 
-        // Add the current user message
-        messages.push({ role: "user", content: userMessage });
-
-        console.log('Sending request to API with messages:', messages);
-
-        // Make API call to OpenAI
+        // Make API call
         const response = await fetch(`${OPENAI_BASE_URL}/chat/completions`, {
             method: 'POST',
             headers: {
@@ -155,36 +165,36 @@ async function getAIResponse(userMessage) {
             },
             body: JSON.stringify({
                 model: "gpt-4o",
-                messages: messages,
-                temperature: 0.7,
-                max_tokens: 500
+                messages: messages
             })
         });
 
-        console.log('API Response status:', response.status);
-        
+        console.log('Response status:', response.status);
+        const responseText = await response.text();
+        console.log('Response text:', responseText);
+
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error('API Error Response:', errorText);
-            throw new Error(`API request failed with status ${response.status}: ${errorText}`);
+            throw new Error(`API request failed with status ${response.status}: ${responseText}`);
         }
 
-        const data = await response.json();
-        console.log('API Response data:', data);
+        const data = JSON.parse(responseText);
+        console.log('Parsed response:', data);
         
         // Remove loading indicator
         chatMessages.removeChild(loadingDiv);
 
-        // Add AI response
+        // Add AI response to chat
         const aiResponse = data.choices[0].message.content;
         addMessage(aiResponse);
+
     } catch (error) {
         console.error('Error getting AI response:', error);
         // Remove loading indicator if it exists
-        if (chatMessages.querySelector('.loading')) {
-            chatMessages.removeChild(chatMessages.querySelector('.loading'));
+        const loadingElement = chatMessages.querySelector('.loading');
+        if (loadingElement) {
+            chatMessages.removeChild(loadingElement);
         }
-        addMessage("I'm sorry, I'm having trouble processing your request. Please try again later. Error: " + error.message);
+        addMessage("I apologize, but I'm having trouble connecting to the service right now. Please try again later.");
     }
 }
 
