@@ -1,5 +1,6 @@
 // API Keys (Replace with your actual API keys)
-const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY';
+const OPENAI_API_KEY = 'selam-cc2ffb45ff774d568422f84161b9d04d';
+const OPENAI_BASE_URL = 'https://selamapi.vercel.app/v1';
 const NUTRITIONIX_APP_ID = 'YOUR_NUTRITIONIX_APP_ID';
 const NUTRITIONIX_APP_KEY = 'YOUR_NUTRITIONIX_APP_KEY';
 
@@ -23,6 +24,31 @@ const signInLink = document.getElementById('signInLink');
 const closeModal = document.querySelector('.close');
 const signInForm = document.getElementById('signInForm');
 const header = document.querySelector('.header');
+
+// Hamburger menu functionality for mobile
+const menuToggle = document.getElementById('menuToggle');
+const nav = document.querySelector('.nav');
+
+if (menuToggle && nav) {
+    menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        nav.classList.toggle('open');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuToggle) {
+            nav.classList.remove('open');
+        }
+    });
+
+    // Close menu when clicking a link
+    nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            nav.classList.remove('open');
+        });
+    });
+}
 
 // Chat Modal Functionality
 // Show chat modal when chat button is clicked
@@ -105,43 +131,60 @@ async function getAIResponse(userMessage) {
         chatMessages.appendChild(loadingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Simulate AI response (replace with actual API call)
-        const responses = {
-            'general': [
-                "Maintaining good health involves regular exercise, balanced diet, and adequate sleep.",
-                "Common symptoms to watch for include persistent fatigue, unexplained weight changes, and chronic pain.",
-                "Regular check-ups are important for preventive care and early detection of health issues."
-            ],
-            'mental': [
-                "Mental health is as important as physical health. Practice self-care and seek help when needed.",
-                "Common signs of mental health issues include changes in mood, sleep patterns, and social behavior.",
-                "Regular exercise, meditation, and maintaining social connections can improve mental well-being."
-            ],
-            'women': [
-                "Women's health needs change throughout life stages. Regular screenings are important.",
-                "Common women's health concerns include reproductive health, breast health, and hormonal changes.",
-                "Maintaining a healthy lifestyle and regular check-ups are crucial for women's health."
-            ],
-            'preventive': [
-                "Preventive care includes regular check-ups, vaccinations, and healthy lifestyle choices.",
-                "Early detection of health issues through regular screenings can improve treatment outcomes.",
-                "Maintaining a healthy weight, not smoking, and regular exercise are key preventive measures."
-            ]
-        };
+        // Prepare the messages array with chat history
+        const messages = [
+            { role: "system", content: "You are a helpful and knowledgeable health assistant. Provide accurate, clear, and concise health-related information. If you're unsure about something, say so and recommend consulting a healthcare professional." }
+        ];
 
+        // Add chat history
+        chatHistory.forEach(msg => {
+            messages.push({ role: msg.role, content: msg.content });
+        });
+
+        // Add the current user message
+        messages.push({ role: "user", content: userMessage });
+
+        console.log('Sending request to API with messages:', messages);
+
+        // Make API call to OpenAI
+        const response = await fetch(`${OPENAI_BASE_URL}/chat/completions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "gpt-4o",
+                messages: messages,
+                temperature: 0.7,
+                max_tokens: 500
+            })
+        });
+
+        console.log('API Response status:', response.status);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('API Error Response:', errorText);
+            throw new Error(`API request failed with status ${response.status}: ${errorText}`);
+        }
+
+        const data = await response.json();
+        console.log('API Response data:', data);
+        
         // Remove loading indicator
         chatMessages.removeChild(loadingDiv);
 
-        // Get a random response based on the category
-        const categories = Object.keys(responses);
-        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-        const randomResponse = responses[randomCategory][Math.floor(Math.random() * responses[randomCategory].length)];
-        
         // Add AI response
-        addMessage(randomResponse);
+        const aiResponse = data.choices[0].message.content;
+        addMessage(aiResponse);
     } catch (error) {
         console.error('Error getting AI response:', error);
-        addMessage("I'm sorry, I'm having trouble processing your request. Please try again later.");
+        // Remove loading indicator if it exists
+        if (chatMessages.querySelector('.loading')) {
+            chatMessages.removeChild(chatMessages.querySelector('.loading'));
+        }
+        addMessage("I'm sorry, I'm having trouble processing your request. Please try again later. Error: " + error.message);
     }
 }
 
