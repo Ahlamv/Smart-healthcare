@@ -101,11 +101,7 @@ function initializeChat() {
         welcomeMessage.className = 'message bot';
         welcomeMessage.innerHTML = `
             <p>Hello! I'm your AI assistant. How can I help you today?</p>
-            <div class="quick-answers">
-                <button class="quick-answer" data-category="general">General Questions</button>
-                <button class="quick-answer" data-category="help">Help</button>
-            </div>
-        `;
+             `;
         chatMessages.appendChild(welcomeMessage);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }

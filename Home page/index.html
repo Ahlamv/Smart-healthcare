@@ -13,18 +13,28 @@
         <div class="container">
             <div class="logo">
                 <i class="fas fa-heartbeat"></i>
-                <span>HealthAI</span>
+                <span>MedXcel Ethiopia</span>
             </div>
             <button id="menuToggle" class="menu-toggle" aria-label="Open menu">
                 <i class="fas fa-bars"></i>
             </button>
             <nav class="nav">
                 <ul>
-                    <li><a href="../Profile Page/index.html" id="profileLink">Profile</a></li>
                     <li><a href="../Appointment Page/index.html" id="bookAppointmentLink">Book Appointment</a></li>
                     <li><a href="../Personal Doctor/index.html" id="personalDoctorLink">Personal Doctor</a></li>
                     <li><a href="../Services/girls.html" id="servicesLink">Services</a></li>
-                    <li><a href="../SignIn page/index.html" id="signInLink">Logout</a></li>
+                    <li class="profile-link">
+                        <a href="../Profile Page/index.html" id="profileLink">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="logout-link">
+                        <a href="../SignIn page/index.html" id="signInLink">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -35,11 +45,17 @@
         <main class="main-content">
             <section class="hero">
                 <div class="hero-content">
-                    <h1>Your AI Health Assistant</h1>
-                    <p>Get personalized health advice and track your wellness journey with our advanced AI technology</p>
+                    <h1>Welcome to Your Health Journey</h1>
+                    <p>Experience personalized healthcare with our AI-powered platform. Get instant access to medical advice, book appointments, and track your wellness.</p>
                     <div class="hero-buttons">
-                        <a href="#womens-health-section" class="cta-button">Explore Services</a>
-                        <a href="#about-section" class="secondary-button">Learn More</a>
+                        <a href="#womens-health-section" class="cta-button">
+                            <i class="fas fa-heart"></i>
+                            Get Started
+                        </a>
+                        <a href="#about-section" class="secondary-button">
+                            <i class="fas fa-info-circle"></i>
+                            Learn More
+                        </a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -47,146 +63,98 @@
                 </div>
             </section>
 
-            <!-- Website Features -->
+            <!-- Quick Access Section -->
+            <section class="quick-access">
+                <div class="access-grid">
+                    <a href="../Appointment Page/index.html" class="access-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>Book Appointment</h3>
+                        <p>Schedule your next visit with ease</p>
+                    </a>
+                    <a href="../Personal Doctor/index.html" class="access-card">
+                        <i class="fas fa-user-md"></i>
+                        <h3>Find Doctor</h3>
+                        <p>Connect with healthcare professionals</p>
+                    </a>
+                    <a href="../Services/girls.html" class="access-card">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Health Services</h3>
+                        <p>Explore our range of services</p>
+                    </a>
+                    <a href="#" class="access-card">
+                        <i class="fas fa-file-medical"></i>
+                        <h3>Medical Records</h3>
+                        <p>Access your health history</p>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Features Section -->
             <section class="features" id="features-section">
-                <h2 class="section-title">Our Capabilities</h2>
+                <h2 class="section-title">Why Choose Us</h2>
                 <div class="features-grid">
                     <div class="feature-card">
-                        <i class="fas fa-robot"></i>
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
                         <h3>AI-Powered Health Assistant</h3>
                         <p>Get instant, personalized health advice from our advanced AI assistant, available 24/7</p>
                     </div>
                     <div class="feature-card">
-                        <i class="fas fa-user-md"></i>
-                        <h3>Doctor Matching</h3>
-                        <p>Find the perfect healthcare provider based on your needs and preferences</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-calendar-check"></i>
-                        <h3>Smart Scheduling</h3>
-                        <p>Book appointments with ease and receive automated reminders</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-chart-line"></i>
-                        <h3>Health Tracking</h3>
-                        <p>Monitor your health metrics and track your wellness journey</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-shield-alt"></i>
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
                         <h3>Privacy & Security</h3>
-                        <p>Your health data is protected with enterprise-grade security</p>
+                        <p>Your health data is protected with enterprise-grade security measures</p>
                     </div>
                     <div class="feature-card">
-                        <i class="fas fa-mobile-alt"></i>
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
                         <h3>Mobile Access</h3>
                         <p>Access your health information anytime, anywhere on any device</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Floating Chat Button -->
-            <button class="chat-button" id="openChat">
-                <i class="fas fa-comment-medical"></i>
-            </button>
-
-            <!-- Chat Modal -->
-            <div class="chat-modal" id="chatModal">
-                <div class="chat-header">
-                    <h3>Health Assistant</h3>
-                    <button class="close-chat" id="closeChat" onclick="closeChatModal()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="chat-container">
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="message bot">
-                            <p>Hello! I'm your AI health assistant. How can I help you today?</p>
-                        </div>
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" id="userInput" placeholder="Ask me anything about health...">
-                        <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Women's Health Services -->
+            <!-- Women's Health Section -->
             <section class="womens-health" id="womens-health-section">
                 <h2 class="section-title">Women's Health Services</h2>
                 <div class="services-grid">
                     <div class="service-card">
-                        <i class="fas fa-female"></i>
+                        <div class="service-icon">
+                            <i class="fas fa-female"></i>
+                        </div>
                         <h3>Reproductive Health</h3>
                         <p>Comprehensive care for menstrual health, fertility, and family planning</p>
-                        <a href="../Services/girls.html" class="learn-more" data-service="reproductive-health">Learn More</a>
+                        <a href="../Services/girls.html" class="learn-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="service-card">
-                        <i class="fas fa-baby"></i>
+                        <div class="service-icon">
+                            <i class="fas fa-baby"></i>
+                        </div>
                         <h3>Pregnancy Care</h3>
                         <p>Prenatal and postnatal care with personalized support</p>
-                        <a href="../Services/girls.html" class="learn-more" data-service="pregnancy-care">Learn More</a>
+                        <a href="../Services/girls.html" class="learn-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="service-card">
-                        <i class="fas fa-heart"></i>
+                        <div class="service-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
                         <h3>Breast Health</h3>
                         <p>Regular screenings and education for breast cancer prevention</p>
-                        <a href="../Services/girls.html" class="learn-more" data-service="breast-health">Learn More</a>
-                    </div>
-                    <div class="service-card">
-                        <i class="fas fa-brain"></i>
-                        <h3>Mental Wellness</h3>
-                        <p>Specialized support for women's mental health and well-being</p>
-                        <a href="../Services/girls.html" class="learn-more" data-service="mental-wellness">Learn More</a>
+                        <a href="../Services/girls.html" class="learn-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </section>
 
-            <!-- About Us Section -->
+            <!-- About Section -->
             <section class="about-us" id="about-section">
                 <div class="about-container">
-                    <h2 class="section-title">About Us</h2>
                     <div class="about-content">
                         <div class="about-text">
-                            <div class="mission-vision">
-                                <div class="mission">
-                                    <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
-                                    <p>We are dedicated to providing accessible and personalized healthcare solutions through innovative technology. Our AI-powered platform connects patients with healthcare professionals, making quality healthcare more accessible to everyone.</p>
-                                </div>
-                                <div class="vision">
-                                    <h3><i class="fas fa-eye"></i> Our Vision</h3>
-                                    <p>To revolutionize healthcare delivery in Ethiopia by leveraging artificial intelligence and digital solutions, ensuring that every individual has access to quality medical care and health information.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="values-section">
-                                <h3><i class="fas fa-heart"></i> Our Values</h3>
-                                <div class="values-grid">
-                                    <div class="value-item">
-                                        <i class="fas fa-heart"></i>
-                                        <h4>Compassion</h4>
-                                        <p>We care deeply about our patients' well-being</p>
-                                    </div>
-                                    <div class="value-item">
-                                        <i class="fas fa-lightbulb"></i>
-                                        <h4>Innovation</h4>
-                                        <p>We continuously improve our services</p>
-                                    </div>
-                                    <div class="value-item">
-                                        <i class="fas fa-handshake"></i>
-                                        <h4>Trust</h4>
-                                        <p>We build relationships based on trust</p>
-                                    </div>
-                                    <div class="value-item">
-                                        <i class="fas fa-users"></i>
-                                        <h4>Community</h4>
-                                        <p>We serve our community with dedication</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="about-stats">
-                            <h3><i class="fas fa-chart-bar"></i> Our Impact</h3>
+                            <h2 class="section-title">About MedXcel Ethiopia</h2>
+                            <p>We are dedicated to revolutionizing healthcare in Ethiopia through innovative technology and personalized care. Our platform connects patients with healthcare professionals, making quality healthcare accessible to everyone.</p>
                             <div class="stats-grid">
                                 <div class="stat-item">
                                     <span class="stat-number">10,000+</span>
@@ -200,15 +168,63 @@
                                     <span class="stat-number">24/7</span>
                                     <span class="stat-label">AI Support</span>
                                 </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">95%</span>
-                                    <span class="stat-label">Patient Satisfaction</span>
-                                </div>
                             </div>
+                        </div>
+                        <div class="about-image">
+                            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80" alt="Healthcare Team">
                         </div>
                     </div>
                 </div>
             </section>
+
+            <!-- Floating Chat Button -->
+            <button class="chat-button" id="openChat">
+                <i class="fas fa-comment-medical"></i>
+            </button>
+
+            <!-- Chat Modal -->
+            <div class="chat-modal" id="chatModal">
+                <div class="chat-header">
+                    <div class="chat-title">
+                        <i class="fas fa-robot"></i>
+                        <h3>MedXcel Assistant</h3>
+                        <span class="chat-status">Online</span>
+                    </div>
+                    <button class="close-chat" id="closeChat">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot">
+                            <div class="message-content">
+                                <p>Hello! I'm your AI assistant.<br>How can I help you today?</p>
+                            </div>
+                            <div class="message-time">Just now</div>
+                        </div>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn">
+                            <i class="fas fa-calendar-check"></i>
+                            Book Appointment
+                        </button>
+                        <button class="quick-action-btn">
+                            <i class="fas fa-user-md"></i>
+                            Find Doctor
+                        </button>
+                        <button class="quick-action-btn">
+                            <i class="fas fa-file-medical"></i>
+                            Medical Records
+                        </button>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="userInput" placeholder="Ask me anything about health...">
+                        <button id="sendMessage">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -217,7 +233,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>HealthAI</h3>
+                    <h3>MedXcel Ethiopia</h3>
                     <p>Your trusted partner in healthcare innovation and digital solutions.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook"></i></a>
@@ -247,7 +263,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 HealthAI. All rights reserved.</p>
+                <p>&copy; 2024 MedXcel Ethiopia. All rights reserved.</p>
                 <div class="footer-links">
                     <a href="#">Privacy Policy</a>
                     <a href="#">Terms of Service</a>
