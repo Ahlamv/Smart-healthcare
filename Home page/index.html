@@ -9,35 +9,42 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
+    <header class="nav-header">
+        <div class="logo">
+            <a href="index.html">
                 <i class="fas fa-heartbeat"></i>
                 <span>MedXcel Ethiopia</span>
-            </div>
-            <button id="menuToggle" class="menu-toggle" aria-label="Open menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <nav class="nav">
-                <ul>
-                    <li><a href="../Appointment Page/index.html" id="bookAppointmentLink">Book Appointment</a></li>
-                    <li><a href="../Personal Doctor/index.html" id="personalDoctorLink">Personal Doctor</a></li>
-                    <li><a href="../Services/girls.html" id="servicesLink">Services</a></li>
-                    <li class="profile-link">
-                        <a href="../Profile Page/index.html" id="profileLink">
-                            <i class="fas fa-user-circle"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-                    <li class="logout-link">
-                        <a href="../SignIn page/index.html" id="signInLink">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            </a>
         </div>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="../Services/girls.html" class="nav-link">
+                <i class="fas fa-stethoscope"></i>
+                <span>Services</span>
+            </a>
+            <a href="../Personal Doctor/index.html" class="nav-link">
+                <i class="fas fa-user-md"></i>
+                <span>Doctors</span>
+            </a>
+            <a href="../Home page/index.html#contact-section" class="nav-link">
+                <i class="fas fa-address-book"></i>
+                <span>Contact</span>
+            </a>
+            <a href="../Profile Page/index.html" class="nav-link">
+                <img src="https://via.placeholder.com/30" alt="Profile" class="profile-icon" id="nav-profile-icon">
+                <span>Profile</span>
+            </a>
+            <a href="../SignIn page/index.html" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </nav>
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
 
     <div class="container">
@@ -229,7 +236,7 @@
     </div>
 
     <!-- Contact & Support Footer -->
-    <footer class="footer">
+    <footer class="footer" id="contact-section">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
@@ -249,7 +256,7 @@
                         <li><a href="#about-section">About Us</a></li>
                         <li><a href="#features-section">Capabilities</a></li>
                         <li><a href="#womens-health-section">Services</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#contact-section">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -272,26 +279,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Sign In Modal -->
-    <div class="modal" id="signInModal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Sign In</h2>
-            <form id="signInForm">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required>
-                </div>
-                <button type="submit">Sign In</button>
-            </form>
-        </div>
-    </div>
-
     <script src="script.js"></script>
 </body>
 </html>

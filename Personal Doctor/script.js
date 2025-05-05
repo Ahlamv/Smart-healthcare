@@ -26,7 +26,7 @@ const doctors = [
     {
         name: "Dr. James Wilson",
         specialty: "Neurologist",
-        image: "https://images.pexels.com/photos/4173251/pexels-photo-4173251.jpeg?w=500&h=500&fit=crop",
+        image: "https://images.pexels.com/photos/8460090/pexels-photo-8460090.jpeg?auto=compress&cs=tinysrgb&w=600",
         experience: "20 years",
         education: "Johns Hopkins School of Medicine",
         description: "Expert in neurological disorders and brain health."
@@ -159,6 +159,9 @@ function showDoctorDetails(doctorName) {
         <p><strong>Experience:</strong> ${doctor.experience}</p>
         <p><strong>Education:</strong> ${doctor.education}</p>
         <p><strong>About:</strong> ${doctor.description}</p>
+        <button class="book-appointment-btn" onclick="window.location.href='../Appointment Page/index.html?doctor=${encodeURIComponent(doctor.name)}'">
+            <i class="fas fa-calendar-check"></i> Book Appointment
+        </button>
     `;
     
     modal.style.display = 'block';

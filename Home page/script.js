@@ -110,6 +110,13 @@ function initializeChat() {
 // Initialize chat when page loads
 document.addEventListener('DOMContentLoaded', function() {
     initializeChat();
+    // Update profile icon with user's profile picture
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const profileIcon = document.getElementById('nav-profile-icon');
+    
+    if (currentUser && currentUser.profilePicture) {
+        profileIcon.src = currentUser.profilePicture;
+    }
 });
 
 // Chat functionality

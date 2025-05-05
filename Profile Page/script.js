@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check registration
         const registrationModal = document.getElementById('registration-modal');
         const mainContainer = document.getElementById('main-container');
-        const patientData = JSON.parse(localStorage.getItem('patientData'));
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         
-        if (!patientData) {
+        if (!currentUser) {
             registrationModal.style.display = 'flex';
             mainContainer.style.display = 'none';
         } else {
@@ -76,18 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Load patient data
         function loadPatientData() {
-            const patientData = JSON.parse(localStorage.getItem('patientData'));
-            if (patientData) {
-                const dob = new Date(patientData.dob);
-                const age = new Date().getFullYear() - dob.getFullYear();
-                
-                document.getElementById('patient-name').textContent = 
-                    `${patientData.firstName} ${patientData.lastName}`;
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                document.getElementById('patient-name').textContent = currentUser.name;
                 document.getElementById('patient-info').textContent = 
-                    `${age} years old • ${patientData.gender} • ${patientData.bloodType || 'Blood type not specified'}`;
+                    `${currentUser.healthInfo?.age || 'Age not specified'} years old • ${currentUser.healthInfo?.gender || 'Gender not specified'} • ${currentUser.healthInfo?.bloodType || 'Blood type not specified'}`;
                 
-                if (patientData.profilePicture) {
-                    document.getElementById('patient-profile-img').src = patientData.profilePicture;
+                if (currentUser.profilePicture) {
+                    document.getElementById('patient-profile-img').src = currentUser.profilePicture;
                 }
             }
         }

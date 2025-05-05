@@ -38,6 +38,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Profile photo upload functionality
+    const profilePhoto = document.getElementById('profile-photo');
+    const profilePreview = document.getElementById('profile-preview');
+    let profilePhotoData = null;
+
+    profilePhoto.addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                profilePreview.src = event.target.result;
+                profilePhotoData = event.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+
     // Registration form handling
     const registrationForm = document.getElementById('registration-form');
     registrationForm.addEventListener('submit', function(e) {
@@ -51,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             password: document.getElementById('reg-password').value,
             dob: document.getElementById('dob').value,
             gender: document.getElementById('gender').value,
+            profilePicture: profilePhotoData || 'https://via.placeholder.com/150',
             healthInfo: {
                 bloodType: document.getElementById('blood-type').value,
                 allergies: document.getElementById('allergies').value,
@@ -64,8 +81,24 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Close modal and show success message
         modal.style.display = 'none';
-        alert('Account created successfully! Please sign in with your new account.');
+        
+        // Create and show success message
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-message';
+        successMessage.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <p>Account created successfully! Please sign in with your new account.</p>
+        `;
+        document.querySelector('.container').appendChild(successMessage);
+        
+        // Remove success message after 3 seconds
+        setTimeout(() => {
+            successMessage.remove();
+        }, 3000);
+        
         registrationForm.reset();
+        profilePreview.src = 'https://via.placeholder.com/150';
+        profilePhotoData = null;
     });
 
     // Sign in form handling
@@ -90,11 +123,19 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Store current user session
+        // Store current user session with all necessary data
         localStorage.setItem('currentUser', JSON.stringify({
             name: `${userData.firstName} ${userData.lastName}`,
             email: userData.email,
-            healthInfo: userData.healthInfo
+            profilePicture: userData.profilePicture || 'https://via.placeholder.com/60',
+            healthInfo: {
+                age: userData.age || 'Not specified',
+                gender: userData.gender || 'Not specified',
+                bloodType: userData.healthInfo?.bloodType || 'Not specified',
+                allergies: userData.healthInfo?.allergies || 'None',
+                medications: userData.healthInfo?.medications || 'None',
+                conditions: userData.healthInfo?.conditions || 'None'
+            }
         }));
 
         // Redirect to home page
