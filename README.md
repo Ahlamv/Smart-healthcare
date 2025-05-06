@@ -24,7 +24,6 @@ The **AI-Powered Hospital Management Platform** is a digital solution aimed at t
 - **Online Appointment Booking**: Patients can easily book doctor appointments, reducing waiting times.
 - **Digital Medical Profiles**: Secure, user-specific profiles that store patient medical history, retrievable via a unique ID.
 - **AI Assistant**: A simple chatbot to guide users through the platform and answer common healthcare questions.
-- **Multi-Language Support**: The platform supports multiple Ethiopian languages, including Amharic, Oromo, Tigrinya, and English.
 - **Mobile-Friendly**: Fully responsive design for easy use on any device.
 
 ---
@@ -39,7 +38,7 @@ The **AI-Powered Hospital Management Platform** is a digital solution aimed at t
 ## Setup
 1. Clone this repository:
     ```bash
-    git clone https://github.com/your-username/ai-hospital-management.git
+    git clone https://github.com/your-username/Smart-healthcare.git
     ```
 
 2. Open `index.html` directly in your browser to view the platform.  
@@ -52,34 +51,57 @@ The **AI-Powered Hospital Management Platform** is a digital solution aimed at t
 - **Appointment Page**: Book doctor appointments online using the simple form.
 - **Profile Page**: View your medical history by entering your unique ID.
 - **About Us Page**: Learn more about the mission and vision behind this project.
-- **Language Selector**: Switch between different Ethiopian languages (Amharic, Oromo, Tigrinya, English).
 - **AI Assistant**: Chat with the AI assistant for help in navigating the platform.
 
 ---
 
 ## Project Structure
 ```
-ai-hospital-management/
-├── index.html          (Homepage)
-├── appointment.html    (Appointment booking page)
-├── about.html          (About Us page)
-├── profile.html        (Profile page)
-├── css/
-│   └── style.css       (All page styles)
-├── js/
-│   ├── main.js         (Navbar, general scripts)
-│   ├── appointment.js  (Appointment form handling)
-│   ├── profile.js      (Profile fetching)
-│   ├── ai-assistant.js (Chatbot logic)
-│   ├── language.js     (Language switching)
-├── assets/
-│   └── images/
-│       └── logo.png    (Platform logos, icons)
-└── README.md
+smart-healthcare/
+├── Home page/                    # Main landing page
+│   ├── index.html               # Home page HTML
+│   ├── styles.css               # Home page styles
+│   └── script.js                # Home page functionality
+│
+├── SignIn page/                  # Authentication system
+│   ├── index.html               # Sign in page HTML
+│   ├── style.css                # Sign in page styles
+│   └── script.js                # Authentication logic
+│
+├── Appointment Page/            # Appointment management
+│   ├── index.html              # Appointment booking interface
+│   ├── styles.css              # Appointment page styles
+│   └── script.js               # Appointment handling logic
+│
+├── Profile Page/                # User profile management
+│   ├── index.html              # Profile interface
+│   ├── styles.css              # Profile page styles
+│   └── script.js               # Profile data handling
+│
+├── Personal Doctor/             # Doctor portal
+│   ├── index.html              # Doctor dashboard
+│   ├── styles.css              # Doctor portal styles
+│   └── script.js               # Doctor portal functionality
+│
+├── Services/                    # Backend services
+│   ├── girls.html              # Services interface
+│   ├── girls.css               # Services styles
+│   └── girls.js                # Services functionality
+│
+├── assets/                     # Static assets
+│   ├── images/                 # Image assets
+│   ├── icons/                  # Icon assets
+│   └── fonts/                  # Custom fonts
+│
+├── .vscode/                    # VS Code configuration
+├── .git/                       # Git repository data
+├── .gitattributes             # Git attributes
+├── LICENSE                     # MIT License file
+└── README.md                   # Project documentation
 ```
 
 ---
 
 ## Acknowledgments
-- **Free AI chatbot API** by [Dialogflow]([https://dialogflow.cloud.google.com/](https://selamapi.vercel.app/v1)).
+- **Free AI chatbot API** by [SalamAPI]([(https://selamapi.vercel.app/v1)]).
  
