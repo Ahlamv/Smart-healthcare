@@ -81,7 +81,5 @@ ai-hospital-management/
 ---
 
 ## Acknowledgments
-- **Free AI chatbot API** by [Dialogflow](https://dialogflow.cloud.google.com/).
-- **Free data storage API** by [JSONBin.io](https://jsonbin.io/).
-- **Inspiration from**: The need for accessible healthcare in Ethiopia, especially in rural and underserved areas.
+- **Free AI chatbot API** by [Dialogflow]([https://dialogflow.cloud.google.com/](https://selamapi.vercel.app/v1)).
  
