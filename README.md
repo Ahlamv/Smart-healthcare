@@ -103,5 +103,5 @@ smart-healthcare/
 ---
 
 ## Acknowledgments
-- **Free AI chatbot API** by [SalamAPI]([(https://selamapi.vercel.app/v1)]).
+- **Free AI chatbot API** by [SalamAPI](https://selamapi.vercel.app/v1)
  
